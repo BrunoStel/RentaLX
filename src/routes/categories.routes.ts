@@ -10,7 +10,7 @@ categoriesRoutes.post("/", (request, response) => {
 });
 
 categoriesRoutes.get("/", (request, response) => {
-    return listCategoryController.handle(response);
+    listCategoryController.handle(request, response);
 });
 
 export { categoriesRoutes };
