@@ -5,10 +5,6 @@ import { createCategoryController } from "../modules/cars/useCases/createCategor
 import { importCategoryController } from "../modules/cars/useCases/importCategory";
 import { listCategoryController } from "../modules/cars/useCases/listCategories";
 
-
-
-
-
 const categoriesRoutes = Router();
 
 const upload = multer({
@@ -16,7 +12,6 @@ const upload = multer({
 });
 
 categoriesRoutes.post("/", (request, response) => {
-    console.log("Docker funcionando corretamente")
     return  createCategoryController.handle(request, response);
 });
 
