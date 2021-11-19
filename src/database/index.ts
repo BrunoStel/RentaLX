@@ -1,15 +1,13 @@
-import { Connection, createConnection, getConnectionOptions } from "typeorm";
+import { createConnection, getConnectionOptions } from 'typeorm';
 
-export default async (host = "database_ignite"): Promise<Connection> => {
-    const defaultOptions = await getConnectionOptions();
+interface IOptions {
+  host: string;
+}
 
-    return createConnection(
-        Object.assign(defaultOptions, {
-            host: process.env.NODE_ENV === "test" ? "localhost" : host,
-            database:
-                process.env.NODE_ENV === "test"
-                    ? "rentalx_test"
-                    : defaultOptions.database,
-        })
-    );
-};
+getConnectionOptions().then(options => {
+  const newOptions = options as IOptions;
+  newOptions.host = 'database_ignite'; //Essa opção deverá ser EXATAMENTE o nome dado ao service do banco de dados
+  createConnection({
+    ...options,
+  });
+});
