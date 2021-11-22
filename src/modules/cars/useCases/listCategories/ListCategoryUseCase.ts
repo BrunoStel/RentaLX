@@ -9,8 +9,8 @@ class ListCategoryUseCase {
         @inject(CategoriesRepository)
         private categoriesRepository: ICategoryRepositorie) {}
 
-    execute(): Promise<Category[]> {
-        const categories = this.categoriesRepository.list();
+    async execute(): Promise<Category[]> {
+        const categories = await this.categoriesRepository.list();
 
         return categories;
     }
