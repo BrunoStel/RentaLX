@@ -2,6 +2,8 @@ import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
 import { CreateSpecificationController } from "../modules/cars/useCases/createSpecification/CreateSpecificationController";
 import { CreateUserController } from "../modules/cars/useCases/createUser/CreateUserController";
+import { ListUsersController } from "../modules/cars/useCases/listUsers/listUsersController";
+import { ListUsersUseCase } from "../modules/cars/useCases/listUsers/listUsersUseCase";
 
 
 
@@ -19,5 +21,8 @@ userRoutes.post("/", celebrate({
 }),
 createUserController.handle)
 
+const listUsersController = new ListUsersController;
+userRoutes.get("/",
+listUsersController.handle)
 
 export { userRoutes }
