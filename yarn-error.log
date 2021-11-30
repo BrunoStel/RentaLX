@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\BrunoS\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add tsyringe
+  C:\Program Files\nodejs\node.exe C:\Users\BrunoS\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add celebrate
 
 PATH: 
   C:\Python310\Scripts\;C:\Python310\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\BrunoS\AppData\Local\Microsoft\WindowsApps;;C:\Users\BrunoS\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\BrunoS\AppData\Roaming\npm
@@ -33,6 +33,7 @@ npm manifest:
       "pg": "^8.7.1",
       "reflect-metadata": "^0.1.13",
       "swagger-ui-express": "^4.1.6",
+      "tsyringe": "^4.6.0",
       "typeorm": "^0.2.41",
       "uuid": "^8.3.2",
       "yarn": "^1.22.17"
@@ -1953,7 +1954,7 @@ Lockfile:
       strip-bom "^3.0.0"
       strip-json-comments "^2.0.0"
   
-  tslib@^1.8.1:
+  tslib@^1.8.1, tslib@^1.9.3:
     version "1.14.1"
     resolved "https://registry.npmjs.org/tslib/-/tslib-1.14.1.tgz"
     integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
@@ -1969,6 +1970,13 @@ Lockfile:
     integrity sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==
     dependencies:
       tslib "^1.8.1"
+  
+  tsyringe@^4.6.0:
+    version "4.6.0"
+    resolved "https://registry.yarnpkg.com/tsyringe/-/tsyringe-4.6.0.tgz#14915d3d7f0db35e1cf7269bdbf7c440713c8d07"
+    integrity sha512-BMQAZamSfEmIQzH8WJeRu1yZGQbPSDuI9g+yEiKZFIcO46GPZuMOC2d0b52cVBdw1d++06JnDSIIZvEnogMdAw==
+    dependencies:
+      tslib "^1.9.3"
   
   type-is@^1.6.4, type-is@~1.6.17, type-is@~1.6.18:
     version "1.6.18"

@@ -23,9 +23,7 @@ categoriesRoutes.get("/", listCategoryController.handle);
 
 
 const importCategoryController = new ImportCategoryController;
-categoriesRoutes.post("/import", upload.single("file"),(request, response) => {
-   return importCategoryController.handle;
-});
+categoriesRoutes.post("/import", upload.single("file"),importCategoryController.handle);
 
 export { categoriesRoutes };
 

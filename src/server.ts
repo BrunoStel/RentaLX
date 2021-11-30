@@ -1,5 +1,6 @@
-import express from "express";
+import express, { application } from "express";
 import swaggerUI from "swagger-ui-express";
+import { errors } from 'celebrate';
 
 import "./database"
 
@@ -15,5 +16,7 @@ app.use(express.json());
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 
 app.use(router);
+
+app.use(errors());
 
 app.listen(3333,()=> console.log('Server is running'));
