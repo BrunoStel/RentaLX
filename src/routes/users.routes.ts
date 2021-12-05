@@ -1,9 +1,8 @@
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
-import { CreateSpecificationController } from "../modules/cars/useCases/createSpecification/CreateSpecificationController";
-import { CreateUserController } from "../modules/cars/useCases/createUser/CreateUserController";
-import { ListUsersController } from "../modules/cars/useCases/listUsers/listUsersController";
-import { ListUsersUseCase } from "../modules/cars/useCases/listUsers/listUsersUseCase";
+import { CreateUserController } from "../modules/accounts/UseCases/createUser/CreateUserController";
+import { ListUsersController } from "../modules/accounts/UseCases/listUsers/listUsersController";
+
 
 
 
@@ -14,9 +13,9 @@ userRoutes.post("/", celebrate({
     [Segments.BODY]:{
         name: Joi.string().required().min(3),
         password: Joi.string().required().min(6),
+        username:Joi.string().required().min(3),
         email:Joi.string().required().email(),
-        driver_license: Joi.string().required(),
-        avatar:Joi.string().required()
+        driver_license: Joi.string().required()
     }
 }),
 createUserController.handle)
