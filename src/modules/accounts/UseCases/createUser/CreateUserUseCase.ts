@@ -1,7 +1,8 @@
 
 import {ICreateUserDTO, IUserRepositorie } from "../../repositories/IUserRepositorie";
 import { inject, injectable } from "tsyringe"
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
+import { AppError } from "../../../../errors/AppError";
 
 @injectable()
 class CreateUserUseCase {
@@ -18,7 +19,7 @@ class CreateUserUseCase {
            await this.userRepository.findByUsername(username);
 
         if (emailAlreadyExists) {
-            throw new Error("Username already in use");
+            throw new AppError("Username already in use");
         }
 
         await this.userRepository.create({ name, password:passwordHash, username, email, driver_license });

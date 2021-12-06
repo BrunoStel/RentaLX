@@ -13,6 +13,7 @@ interface IUserRepositorie {
     create(data: ICreateUserDTO): Promise<void>;
     findByUsername(username: string): Promise<User>;
     list(): Promise<User[]>;
+    findByID(id:string): Promise<User>
 }
 
 export { IUserRepositorie, ICreateUserDTO };

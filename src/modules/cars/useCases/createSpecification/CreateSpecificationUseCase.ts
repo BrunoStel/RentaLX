@@ -1,6 +1,7 @@
 import { ICreateCategoryDTO } from "../../repositories/ICategoryRepositorie";
 import { ISpecificationRepositorie } from "../../repositories/ISpecificationsRepositorie";
 import { inject, injectable } from "tsyringe"
+import { AppError } from "../../../../errors/AppError";
 
 @injectable()
 class CreateSpecificationUseCase {
@@ -13,7 +14,7 @@ class CreateSpecificationUseCase {
            await this.specificationRepositorie.findByName(name);
 
         if (specificationAlreadyExists) {
-            throw new Error("Specification already exists");
+            throw new AppError("Specification already exists");
         }
 
         this.specificationRepositorie.create({ name, description });
