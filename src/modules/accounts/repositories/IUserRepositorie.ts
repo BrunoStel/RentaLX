@@ -7,6 +7,8 @@ interface ICreateUserDTO {
     username:string;
     email: string;
     driver_license: string;
+    avatar?:string;
+    id?:string
 }
 
 interface IUserRepositorie {

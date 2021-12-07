@@ -1,14 +1,22 @@
 import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
+import multer from "multer";
+import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 import { CreateUserController } from "../modules/accounts/UseCases/createUser/CreateUserController";
 import { ListUsersController } from "../modules/accounts/UseCases/listUsers/listUsersController";
-
-
-
+import { UpdateUserAvatarController } from "../modules/accounts/UseCases/updateUserAvatar/UpdateUserAvatarController";
+import uploadConfig from "../config/upload"
 
 const userRoutes = Router();
 
+const uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"))
+
+
 const createUserController = new CreateUserController;
+const listUsersController = new ListUsersController;
+const updateUserAvatarController = new UpdateUserAvatarController
+
+
 userRoutes.post("/", celebrate({
     [Segments.BODY]:{
         name: Joi.string().required().min(3),
@@ -20,8 +28,9 @@ userRoutes.post("/", celebrate({
 }),
 createUserController.handle)
 
-const listUsersController = new ListUsersController;
 userRoutes.get("/",
 listUsersController.handle)
+
+userRoutes.patch("/avatar", ensureAuthenticated, uploadAvatar.single("avatar"), updateUserAvatarController.handle)
 
 export { userRoutes }
