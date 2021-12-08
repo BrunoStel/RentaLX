@@ -5,10 +5,17 @@ import { SpecificationRepositorie } from "../../modules/cars/repositories/implem
 import { UserRepository } from "../../modules/accounts/repositories/implementations/UserRepository"
 import { ISpecificationRepositorie } from "../../modules/cars/repositories/ISpecificationsRepositorie"
 import { IUserRepositorie } from "../../modules/accounts/repositories/IUserRepositorie"
+import { SpecificationRepositorieMongo } from "../../modules/cars/repositories/implementations/SpecificationRepositoryMongo"
+import { CategoriesRepositoryMongo } from "../../modules/cars/repositories/implementations/CategoriesRepositoryMongo"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
     CategoriesRepository
+)
+
+container.registerSingleton<ICategoryRepositorie>(
+    "CategoriesRepositoryMongo",
+    CategoriesRepositoryMongo
 )
 
 container.registerSingleton<ISpecificationRepositorie>(
@@ -16,6 +23,10 @@ container.registerSingleton<ISpecificationRepositorie>(
     SpecificationRepositorie
 )
 
+container.registerSingleton<ISpecificationRepositorie>(
+    "SpecificationRepositorieMongo",
+    SpecificationRepositorieMongo
+)
 
 container.registerSingleton<IUserRepositorie>(
     "UserRepository",

@@ -1,6 +1,9 @@
 import { inject, injectable } from "tsyringe";
 import { Specifications } from "../../entities/Specifications";
+import { SpecificationRepositorieMongo } from "../../repositories/implementations/SpecificationRepositoryMongo";
 import { SpecificationRepositorie } from "../../repositories/implementations/SpecificationsRepository";
+import { ISpecificationRepositorieMongo } from "../../repositories/ISpecificationRepositorieMongo";
+import { ISpecificationRepositorie } from "../../repositories/ISpecificationsRepositorie";
 
 
 
@@ -8,10 +11,12 @@ import { SpecificationRepositorie } from "../../repositories/implementations/Spe
 class ListEspecificationUseCase {
     constructor(
         @inject(SpecificationRepositorie)
-        private specificationsRepository: SpecificationRepositorie) {}
+        private specificationsRepository: ISpecificationRepositorie,
+        @inject(SpecificationRepositorieMongo)
+        private specificationsRepositoryMongo: ISpecificationRepositorieMongo) {}
 
     execute(): Promise<Specifications[]> {
-        return this.specificationsRepository.list();
+        return this.specificationsRepository.list()
     }
 }
 

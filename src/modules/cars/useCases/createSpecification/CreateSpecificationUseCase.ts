@@ -1,23 +1,31 @@
 import { ICreateCategoryDTO } from "../../repositories/ICategoryRepositorie";
-import { ISpecificationRepositorie } from "../../repositories/ISpecificationsRepositorie";
 import { inject, injectable } from "tsyringe"
 import { AppError } from "../../../../errors/AppError";
+import { ISpecificationRepositorie } from "../../repositories/ISpecificationsRepositorie";
+import { ISpecificationRepositorieMongo } from "../../repositories/ISpecificationRepositorieMongo";
+
 
 @injectable()
 class CreateSpecificationUseCase {
     constructor(
+        @inject("SpecificationRepositorieMongo")
+        private specificationRepositorieMongo: ISpecificationRepositorieMongo ,
         @inject("SpecificationRepositorie")
-        private specificationRepositorie: ISpecificationRepositorie) {}
+        private specificationRepositorie: ISpecificationRepositorie ) {}
 
     async execute({ name, description }: ICreateCategoryDTO): Promise<void> {
+        const specificationAlreadyExistsMongo =
+           await this.specificationRepositorieMongo.findByName(name);
+          
         const specificationAlreadyExists =
-           await this.specificationRepositorie.findByName(name);
+            await this.specificationRepositorie.findByName(name);
 
-        if (specificationAlreadyExists) {
+        if (specificationAlreadyExistsMongo || specificationAlreadyExists) {
             throw new AppError("Specification already exists");
         }
 
-        this.specificationRepositorie.create({ name, description });
+        await this.specificationRepositorieMongo.create({ name, description });
+        await this.specificationRepositorie.create({ name, description });
     }
 }
 

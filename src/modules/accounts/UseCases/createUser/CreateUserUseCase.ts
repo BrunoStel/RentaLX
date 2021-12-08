@@ -11,7 +11,7 @@ class CreateUserUseCase {
         private userRepository: IUserRepositorie) {}
 
     async execute({ name, password, username, email,driver_license }: ICreateUserDTO): Promise<void> {
-        
+
         const passwordHash = await hash(password, 8)
         
         
