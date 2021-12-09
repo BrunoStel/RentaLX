@@ -1,7 +1,9 @@
 import { ICreateSpecificationDTO } from "../ISpecificationsRepositorie";
-import { specificationModel } from "../../../../database/models/specificationModel";
+
 import { ISpecificationRepositorieMongo } from "../ISpecificationRepositorieMongo";
 import { IspecificationSchema } from "../../../../database/schemas/specificationSchema";
+import { specificationModel } from "../../../../database/models/specificationModel";
+
 
 class SpecificationRepositorieMongo implements ISpecificationRepositorieMongo {
 

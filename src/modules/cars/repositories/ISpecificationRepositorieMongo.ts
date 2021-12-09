@@ -1,5 +1,6 @@
 import { IspecificationSchema } from "../../../database/schemas/specificationSchema";
 
+
 interface ICreateSpecificationDTO {
     name: string;
     description: string;

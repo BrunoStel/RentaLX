@@ -1,5 +1,6 @@
 import { IcategorySchema } from "../../../database/schemas/categorySchema";
 
+
 interface ICreateCategoryDTO {
     name: string;
     description: string;
