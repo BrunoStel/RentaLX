@@ -1,4 +1,4 @@
-import { mongooseConnection } from "../mongoConnection";
+import { mongooseConnection } from "../../../../../shared/infra/database/mongodb/mongoConnection";
 import { categorySchema } from "../schemas/categorySchema";
 
 

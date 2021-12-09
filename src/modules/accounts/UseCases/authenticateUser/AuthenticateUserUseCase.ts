@@ -1,8 +1,8 @@
 import { compare } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
-import { AppError } from "../../../../errors/AppError";
-import { IUserRepositorie } from "../../repositories/IUserRepositorie";
+import { AppError } from "../../../../shared/errors/AppError";
+import { IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
 
 
 

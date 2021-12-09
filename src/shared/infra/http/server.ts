@@ -3,13 +3,13 @@ import "express-async-errors"
 import swaggerUI from "swagger-ui-express";
 import { errors } from 'celebrate';
 
-import "./database"
+import "../database/typeorm"
 
-import "./shared/container"
+import "../../container"
 
 import { router } from "./routes";
-import swaggerFile from "./swagger.json";
-import { AppError } from "./errors/AppError";
+import swaggerFile from "../../../swagger.json";
+import { AppError } from "../../errors/AppError";
 
 const app = express();
 

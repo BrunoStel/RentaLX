@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { Router } from "express";
 import multer from "multer";
-import { CreateCategoryController } from "../modules/cars/useCases/createCategory/createCategoryController";
-import { ListCategoryController } from "../modules/cars/useCases/listCategories/ListCategoryController";
-import { ImportCategoryController } from "../modules/cars/useCases/importCategory/ImportCategoryController";
+import { CreateCategoryController } from "../../../../modules/cars/useCases/createCategory/createCategoryController";
+import { ListCategoryController } from "../../../../modules/cars/useCases/listCategories/ListCategoryController";
+import { ImportCategoryController } from "../../../../modules/cars/useCases/importCategory/ImportCategoryController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 

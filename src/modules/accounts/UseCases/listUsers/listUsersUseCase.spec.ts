@@ -1,5 +1,5 @@
 
-import { UserRepositoryInMemory } from "../../repositories/implementations/UserRepositoryInMemory"
+import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory"
 import { ListUsersUseCase } from "./listUsersUseCase"
 
 

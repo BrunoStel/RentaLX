@@ -1,5 +1,5 @@
-import { Specifications } from "../../entities/Specifications";
-import { ICreateSpecificationDTO, ISpecificationRepositorie } from "../ISpecificationsRepositorie";
+import { Specifications } from "../../infra/typeorm/entities/Specifications";
+import { ICreateSpecificationDTO, ISpecificationRepositorie } from "../../infra/typeorm/interfaces/ISpecificationsRepositorie";
 
 
 class SpecificationRepositorieInMemory implements ISpecificationRepositorie {

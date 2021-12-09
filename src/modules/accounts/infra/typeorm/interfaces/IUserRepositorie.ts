@@ -1,4 +1,4 @@
-import { Specifications } from "../../cars/entities/Specifications";
+import { Specifications } from "../../../../cars/infra/typeorm/entities/Specifications";
 import { User } from "../entities/User";
 
 interface ICreateUserDTO {

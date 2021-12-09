@@ -1,9 +1,7 @@
 import { inject, injectable } from "tsyringe";
-import { Specifications } from "../../entities/Specifications";
-import { SpecificationRepositorieMongo } from "../../repositories/implementations/SpecificationRepositoryMongo";
-import { SpecificationRepositorie } from "../../repositories/implementations/SpecificationsRepository";
-import { ISpecificationRepositorieMongo } from "../../repositories/ISpecificationRepositorieMongo";
-import { ISpecificationRepositorie } from "../../repositories/ISpecificationsRepositorie";
+import { Specifications } from "../../infra/typeorm/entities/Specifications";
+import { SpecificationRepositorie } from "../../infra/typeorm/repositories/SpecificationsRepository";
+import { ISpecificationRepositorie } from "../../infra/typeorm/interfaces/ISpecificationsRepositorie";
 
 
 

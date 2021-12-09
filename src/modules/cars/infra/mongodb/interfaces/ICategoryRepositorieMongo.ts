@@ -1,4 +1,4 @@
-import { IcategorySchema } from "../../../database/schemas/categorySchema";
+import { IcategorySchema } from "../schemas/categorySchema";
 
 
 interface ICreateCategoryDTO {

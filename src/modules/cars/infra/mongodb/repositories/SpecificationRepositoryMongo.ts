@@ -1,8 +1,8 @@
-import { ICreateSpecificationDTO } from "../ISpecificationsRepositorie";
+import { ICreateSpecificationDTO } from "../../typeorm/interfaces/ISpecificationsRepositorie";
 
-import { ISpecificationRepositorieMongo } from "../ISpecificationRepositorieMongo";
-import { IspecificationSchema } from "../../../../database/schemas/specificationSchema";
-import { specificationModel } from "../../../../database/models/specificationModel";
+import { ISpecificationRepositorieMongo } from "../interfaces/ISpecificationRepositorieMongo";
+import { IspecificationSchema } from "../schemas/specificationSchema";
+import { specificationModel } from "../models/specificationModel";
 
 
 class SpecificationRepositorieMongo implements ISpecificationRepositorieMongo {

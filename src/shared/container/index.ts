@@ -1,19 +1,21 @@
 import { container } from "tsyringe"
-import { ICategoryRepositorie } from "../../modules/cars/repositories/ICategoryRepositorie"
-import { CategoriesRepository } from "../../modules/cars/repositories/implementations/CategoriesRepository"
-import { SpecificationRepositorie } from "../../modules/cars/repositories/implementations/SpecificationsRepository"
-import { UserRepository } from "../../modules/accounts/repositories/implementations/UserRepository"
-import { ISpecificationRepositorie } from "../../modules/cars/repositories/ISpecificationsRepositorie"
-import { IUserRepositorie } from "../../modules/accounts/repositories/IUserRepositorie"
-import { SpecificationRepositorieMongo } from "../../modules/cars/repositories/implementations/SpecificationRepositoryMongo"
-import { CategoriesRepositoryMongo } from "../../modules/cars/repositories/implementations/CategoriesRepositoryMongo"
+import { ICategoryRepositorie } from "../../modules/cars/infra/typeorm/interfaces/ICategoryRepositorie"
+import { CategoriesRepository } from "../../modules/cars/infra/typeorm/repositories/CategoriesRepository"
+import { SpecificationRepositorie } from "../../modules/cars/infra/typeorm/repositories/SpecificationsRepository"
+import { UserRepository } from "../../modules/accounts/infra/typeorm/repositories/UserRepository"
+import { ISpecificationRepositorie } from "../../modules/cars/infra/typeorm/interfaces/ISpecificationsRepositorie"
+import { IUserRepositorie } from "../../modules/accounts/infra/typeorm/interfaces/IUserRepositorie"
+import { SpecificationRepositorieMongo } from "../../modules/cars/infra/mongodb/repositories/SpecificationRepositoryMongo"
+import { CategoriesRepositoryMongo } from "../../modules/cars/infra/mongodb/repositories/CategoriesRepositoryMongo"
+import { ICategoryRepositorieMongo } from "../../modules/cars/infra/mongodb/interfaces/ICategoryRepositorieMongo"
+import { ISpecificationRepositorieMongo } from "../../modules/cars/infra/mongodb/interfaces/ISpecificationRepositorieMongo"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
     CategoriesRepository
 )
 
-container.registerSingleton<ICategoryRepositorie>(
+container.registerSingleton<ICategoryRepositorieMongo>(
     "CategoriesRepositoryMongo",
     CategoriesRepositoryMongo
 )
@@ -23,7 +25,7 @@ container.registerSingleton<ISpecificationRepositorie>(
     SpecificationRepositorie
 )
 
-container.registerSingleton<ISpecificationRepositorie>(
+container.registerSingleton<ISpecificationRepositorieMongo>(
     "SpecificationRepositorieMongo",
     SpecificationRepositorieMongo
 )

@@ -1,4 +1,4 @@
-import { IspecificationSchema } from "../../../database/schemas/specificationSchema";
+import { IspecificationSchema } from "../schemas/specificationSchema";
 
 
 interface ICreateSpecificationDTO {

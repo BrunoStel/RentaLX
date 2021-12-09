@@ -1,8 +1,8 @@
-import { ICreateCategoryDTO } from "../../repositories/ICategoryRepositorie";
+import { ICreateCategoryDTO } from "../../infra/typeorm/interfaces/ICategoryRepositorie";
 import { inject, injectable } from "tsyringe"
-import { AppError } from "../../../../errors/AppError";
-import { ISpecificationRepositorie } from "../../repositories/ISpecificationsRepositorie";
-import { ISpecificationRepositorieMongo } from "../../repositories/ISpecificationRepositorieMongo";
+import { AppError } from "../../../../shared/errors/AppError";
+import { ISpecificationRepositorie } from "../../infra/typeorm/interfaces/ISpecificationsRepositorie";
+import { ISpecificationRepositorieMongo } from "../../infra/mongodb/interfaces/ISpecificationRepositorieMongo";
 
 
 @injectable()

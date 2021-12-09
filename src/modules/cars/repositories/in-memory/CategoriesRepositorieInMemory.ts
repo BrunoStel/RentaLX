@@ -1,5 +1,5 @@
-import { Category } from "../../entities/Category";
-import { ICategoryRepositorie, ICreateCategoryDTO } from "../ICategoryRepositorie";
+import { Category } from "../../infra/typeorm/entities/Category";
+import { ICategoryRepositorie, ICreateCategoryDTO } from "../../infra/typeorm/interfaces/ICategoryRepositorie";
 
 
 class CategoriesRepositorieInMemory implements ICategoryRepositorie {

@@ -1,7 +1,6 @@
-import { injectable } from "tsyringe";
 import { getRepository, Repository } from "typeorm";
-import { User } from "../../entities/User";
-import { ICreateUserDTO, IUserRepositorie } from "../IUserRepositorie";
+import { User } from "../entities/User";
+import { ICreateUserDTO, IUserRepositorie } from "../interfaces/IUserRepositorie";
 
 
 
