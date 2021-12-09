@@ -11,9 +11,7 @@ import { ISpecificationRepositorie } from "../../repositories/ISpecificationsRep
 class ListEspecificationUseCase {
     constructor(
         @inject(SpecificationRepositorie)
-        private specificationsRepository: ISpecificationRepositorie,
-        @inject(SpecificationRepositorieMongo)
-        private specificationsRepositoryMongo: ISpecificationRepositorieMongo) {}
+        private specificationsRepository: ISpecificationRepositorie) {}
 
     execute(): Promise<Specifications[]> {
         return this.specificationsRepository.list()

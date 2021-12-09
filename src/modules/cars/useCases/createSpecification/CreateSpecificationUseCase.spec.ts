@@ -29,6 +29,8 @@ describe("Create Category", ()=>{
         const specificationCreated = await specificationRepositorieInMemory.findByName(specification.name)
 
         expect(specificationCreated).toHaveProperty("id")
+        
+        
 
     })
     
