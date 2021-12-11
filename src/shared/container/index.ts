@@ -9,6 +9,8 @@ import { SpecificationRepositorieMongo } from "../../modules/cars/infra/mongodb/
 import { CategoriesRepositoryMongo } from "../../modules/cars/infra/mongodb/repositories/CategoriesRepositoryMongo"
 import { ICategoryRepositorieMongo } from "../../modules/cars/infra/mongodb/interfaces/ICategoryRepositorieMongo"
 import { ISpecificationRepositorieMongo } from "../../modules/cars/infra/mongodb/interfaces/ISpecificationRepositorieMongo"
+import { ICarsRepositorie } from "../../modules/cars/infra/typeorm/interfaces/ICarsRepositorie"
+import { CarsRepositorie } from "../../modules/cars/infra/typeorm/repositories/CarsRepository"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
@@ -33,4 +35,9 @@ container.registerSingleton<ISpecificationRepositorieMongo>(
 container.registerSingleton<IUserRepositorie>(
     "UserRepository",
     UserRepository
+)
+
+container.registerSingleton<ICarsRepositorie>(
+    "CarsRepositorie",
+    CarsRepositorie
 )

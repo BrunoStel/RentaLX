@@ -11,7 +11,7 @@ interface IRequest {
 @injectable()
 class CreateCategoryUseCase {
     constructor(
-        @inject("CategoriesRepository")
+        @inject("")
         private categoriesRepository: ICategoryRepositorie,
         @inject("CategoriesRepositoryMongo")
         private categproesRepositorieMongo: ICategoryRepositorieMongo) {}
