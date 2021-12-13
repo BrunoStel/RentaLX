@@ -1,3 +1,4 @@
+import { Category } from "../../typeorm/entities/Category";
 import { IcategorySchema } from "../schemas/categorySchema";
 
 

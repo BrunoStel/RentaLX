@@ -11,7 +11,7 @@ describe("List Especification Use Case", ()=>{
 
     beforeEach(()=>{
         specificationRepositorieInMemory = new SpecificationRepositorieInMemory()
-        createSpecificationUseCase = new CreateSpecificationUseCase(specificationRepositorieInMemory,specificationRepositorieInMemory)
+        createSpecificationUseCase = new CreateSpecificationUseCase(specificationRepositorieInMemory)
         listSpecificationUseCase = new ListEspecificationUseCase(specificationRepositorieInMemory)
     })
 

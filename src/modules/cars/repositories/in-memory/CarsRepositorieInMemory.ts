@@ -5,10 +5,10 @@ import { ICarsRepositorie } from "../../infra/typeorm/interfaces/ICarsRepositori
 
 
 class CarsRepositorieInMemory implements ICarsRepositorie{
-    
+ 
     cars:Car[] = []
 
-    async create({brand, category_id, daily_rate, description, fine_amount,name, license_plate}: ICreateCarDTO): Promise<void> {
+    async create({brand, category_id, daily_rate, description, fine_amount,name, license_plate, available=true}: ICreateCarDTO): Promise<Car> {
         const car = new Car()
         Object.assign(car,
             {
@@ -17,16 +17,28 @@ class CarsRepositorieInMemory implements ICarsRepositorie{
                 daily_rate, 
                 description, 
                 fine_amount,name, 
-                license_plate
+                license_plate,
+                available
             })
 
         this.cars.push(car)
+        return car;
+    }
+
+    async listAvailableCars(): Promise<Car[]> {
+        const cars = this.cars.filter(car => car.available === true)
+        return cars
     }
 
     async findByName(name: string): Promise<Car> {
        const car = this.cars.find(car => car.name === name)
        return car
     }
+
+    async findByLicensePlate(license_plate: string): Promise<Car> {
+        const car = this.cars.find(car => car.license_plate === license_plate)
+        return car
+     }
 
 
 }

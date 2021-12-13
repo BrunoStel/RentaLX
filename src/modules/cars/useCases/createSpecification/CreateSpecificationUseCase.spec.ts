@@ -1,5 +1,5 @@
 import { AppError } from "../../../../shared/errors/AppError"
-import { CategoriesRepositorieInMemory } from "../../repositories/in-memory/CategoriesRepositorieInMemory"
+
 import { SpecificationRepositorieInMemory } from "../../repositories/in-memory/SpecificationRepositorieInMemory"
 import { CreateSpecificationUseCase } from "./CreateSpecificationUseCase"
 
@@ -12,7 +12,7 @@ describe("Create Category", ()=>{
     
     beforeEach(()=>{
         specificationRepositorieInMemory = new SpecificationRepositorieInMemory()
-        createSpecificationUseCase = new CreateSpecificationUseCase(specificationRepositorieInMemory, specificationRepositorieInMemory)
+        createSpecificationUseCase = new CreateSpecificationUseCase(specificationRepositorieInMemory)
     })
 
     it("Should be able to create a new specification",async ()=>{
