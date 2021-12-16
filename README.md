@@ -33,13 +33,13 @@ O usuário não precisa estar logado no sistema.
 
 **RF**
 Deve ser possível cadastrar uma especificação para um carro.
-Deve ser possível listar todas as especificações.
-Deve ser possível listar todos os carros.
+
 
 
 **RN**
 Não deve ser possível cadastrar uma especificação para um carro não cadastrado.
 Não deve ser possível cadastrar uma mesma especificação para o mesmo carro.
+Não deve ser possível cadastrar uma especificação não existe para um carro.
 O usuário responsável pelo cadastro deve ser um usuário administrador.
 
 

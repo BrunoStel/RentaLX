@@ -7,6 +7,7 @@ interface ICarsRepositorie {
     findByName(name:string):Promise<Car>
     findByLicensePlate(license_plate: string): Promise<Car>
     listAvailableCars({brand,category_id,name}:IRequestCarDTO):Promise<Car[]> 
+    findById(car_id:string):Promise<Car>
 }
 
 export { ICarsRepositorie }

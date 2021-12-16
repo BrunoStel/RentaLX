@@ -56,6 +56,8 @@ describe("listAvailableCarsUseCase", ()=>{
 
         expect(cars).toEqual(expect.arrayContaining([car]))
 
+        expect(cars.length).toBe(2)
+
         cars.forEach(obj =>{
             expect(obj.available).toBe(true)
         })
@@ -86,7 +88,7 @@ describe("listAvailableCarsUseCase", ()=>{
 
         const carByCaterogyID =  await carsRepositorie.create({
             name:"Nome teste",
-            brand:"BRAND1",
+            brand:"Brand",
             description:"Description car",
             daily_rate:100,
             license_plate:"ABC-1236",
@@ -102,10 +104,13 @@ describe("listAvailableCarsUseCase", ()=>{
 
 
         expect(carsByBrand).toEqual(expect.arrayContaining([carByBrand]))
+        expect(carsByBrand.length).toBe(1)
 
         expect(carsByCategoryID).toEqual(expect.arrayContaining([carByCaterogyID]))
+        expect(carsByCategoryID.length).toBe(1)
 
         expect(carsByName).toEqual(expect.arrayContaining([carByName]))
+        expect(carsByName.length).toBe(1)
         
 
     })

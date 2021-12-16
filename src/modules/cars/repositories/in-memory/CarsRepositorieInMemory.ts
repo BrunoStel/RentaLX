@@ -1,3 +1,4 @@
+import { AppError } from "../../../../shared/errors/AppError";
 import { ICreateCarDTO } from "../../infra/dtos/ICreateCarDTO";
 import { Car } from "../../infra/typeorm/entities/Car";
 import { ICarsRepositorie } from "../../infra/typeorm/interfaces/ICarsRepositorie";
@@ -5,10 +6,9 @@ import { ICarsRepositorie } from "../../infra/typeorm/interfaces/ICarsRepositori
 
 
 class CarsRepositorieInMemory implements ICarsRepositorie{
- 
     cars:Car[] = []
 
-    async create({brand, category_id, daily_rate, description, fine_amount,name, license_plate, available=true}: ICreateCarDTO): Promise<Car> {
+    async create({brand, category_id, daily_rate, description, fine_amount,name, license_plate, available=true, specifications}: ICreateCarDTO): Promise<Car> {
         const car = new Car()
         Object.assign(car,
             {
@@ -18,7 +18,8 @@ class CarsRepositorieInMemory implements ICarsRepositorie{
                 description, 
                 fine_amount,name, 
                 license_plate,
-                available
+                available,
+                specifications
             })
 
         this.cars.push(car)
@@ -52,6 +53,11 @@ class CarsRepositorieInMemory implements ICarsRepositorie{
 
     async findByName(name: string): Promise<Car> {
        const car = this.cars.find(car => car.name === name)
+
+       if(!car){
+           throw new AppError("Car does not exists by that name")
+       }
+
        return car
     }
 
@@ -59,6 +65,11 @@ class CarsRepositorieInMemory implements ICarsRepositorie{
         const car = this.cars.find(car => car.license_plate === license_plate)
         return car
      }
+
+    async findById(car_id: string): Promise<Car> {
+        const car = this.cars.find(car => car.id === car_id)
+        return car 
+    }
 
 
 }

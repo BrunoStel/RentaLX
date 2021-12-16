@@ -1,3 +1,4 @@
+import { Specifications } from "../typeorm/entities/Specifications";
 
 interface ICreateCarDTO{
     name:string,
@@ -7,7 +8,9 @@ interface ICreateCarDTO{
     fine_amount:number,
     brand:string,
     category_id:string,
-    available?: boolean
+    available?: boolean,
+    specifications?: Specifications[],
+    id?:string
 }
 
 
