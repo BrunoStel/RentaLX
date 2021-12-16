@@ -62,7 +62,7 @@ describe("listAvailableCarsUseCase", ()=>{
 
     })
 
-    it("Should be able to list all avaible cars by name, brand and description_id", async ()=>{
+    it("Should be able to list all avaible cars by name, brand and category_id", async ()=>{
         const carByName = await carsRepositorie.create({
             name:"TESTE1",
             brand:"Brand",

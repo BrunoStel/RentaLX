@@ -2,6 +2,7 @@ import { getRepository, Repository } from "typeorm";
 import { ICreateCarDTO } from "../../dtos/ICreateCarDTO";
 import { Car } from "../entities/Car";
 import { ICarsRepositorie } from "../interfaces/ICarsRepositorie";
+import { IRequestCarDTO } from "../../dtos/IRequestCarDTO";
 
 
 class CarsRepositorie implements ICarsRepositorie{
@@ -9,11 +10,6 @@ class CarsRepositorie implements ICarsRepositorie{
 
     constructor(){
         this.repository =  getRepository(Car)
-    }
-
-    async listAvailableCars(): Promise<Car[]> {
-       const cars = (await this.repository.find()).filter(obj => obj.available === true)
-       return cars
     }
 
     async findByLicensePlate(license_plate: string): Promise<Car> {
@@ -48,6 +44,28 @@ class CarsRepositorie implements ICarsRepositorie{
     findByName(name: string): Promise<Car> {
         throw new Error("Method not implemented.");
     }
+
+    async listAvailableCars({brand,category_id,name}:IRequestCarDTO): Promise<Car[]> {
+
+        const carsQuery = await this.repository
+        .createQueryBuilder("c")
+        .where("available = :available", { available:true })
+
+        if(brand){
+            carsQuery.andWhere("c.brand = :brand", {brand:brand})
+        }
+        if(category_id){
+            carsQuery.andWhere("c.category_id = :category_id", {category_id:category_id})
+        }
+        if(name){
+            carsQuery.andWhere("c.name = :name", {name:name})
+        }
+
+        const cars = await carsQuery.getMany()
+
+        return cars
+
+     }
   
 
 }
