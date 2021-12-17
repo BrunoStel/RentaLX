@@ -6,6 +6,7 @@ import { ICarsRepositorie } from "../../infra/typeorm/interfaces/ICarsRepositori
 
 
 
+
 @injectable()
 class ListAvailableCarsUseCase {
 
@@ -17,6 +18,7 @@ class ListAvailableCarsUseCase {
     async execute({brand,category_id,name}:IRequestCarDTO): Promise<Car[]>{
         const cars = await this.carsRepositorie.listAvailableCars({brand,category_id,name})
         
+
         return cars
     }
 

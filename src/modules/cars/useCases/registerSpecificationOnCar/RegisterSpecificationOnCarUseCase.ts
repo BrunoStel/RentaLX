@@ -33,6 +33,8 @@ class RegisterSpecificationOnCarUseCase {
 
         const car = await this.carsRepositorie.create(carExists)
 
+        
+
         return car
 
     }

@@ -1,5 +1,3 @@
-import { query } from "express";
-import { now } from "mongoose";
 import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 
 export class CreateSpecificationsCars1639670573239 implements MigrationInterface {

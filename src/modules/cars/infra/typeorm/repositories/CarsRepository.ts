@@ -59,20 +59,22 @@ class CarsRepositorie implements ICarsRepositorie{
     async listAvailableCars({brand,category_id,name}:IRequestCarDTO): Promise<Car[]> {
 
         const carsQuery = await this.repository
-        .createQueryBuilder("c")
+        .createQueryBuilder("cars")
+        .leftJoinAndSelect("cars.specifications","specifications")
         .where("available = :available", { available:true })
 
         if(brand){
-            carsQuery.andWhere("c.brand = :brand", {brand:brand})
+            carsQuery.andWhere("cars.brand = :brand", {brand:brand})
         }
         if(category_id){
-            carsQuery.andWhere("c.category_id = :category_id", {category_id:category_id})
+            carsQuery.andWhere("cars.category_id = :category_id", {category_id:category_id})
         }
         if(name){
-            carsQuery.andWhere("c.name = :name", {name:name})
+            carsQuery.andWhere("cars.name = :name", {name:name})
         }
 
-        const cars = await carsQuery.getMany()
+        const cars = carsQuery.getMany()
+
 
         return cars
 
