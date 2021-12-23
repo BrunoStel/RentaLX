@@ -36,7 +36,7 @@ class Car{
     @JoinColumn({name:"category_id"})
     category:Category
 
-    @Column()
+    @Column({select: false})
     category_id:string;
 
     @ManyToMany(()=> Specifications )

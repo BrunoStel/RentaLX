@@ -3,6 +3,7 @@ import { ICreateCarDTO } from "../../dtos/ICreateCarDTO";
 import { Car } from "../entities/Car";
 import { ICarsRepositorie } from "../interfaces/ICarsRepositorie";
 import { IRequestCarDTO } from "../../dtos/IRequestCarDTO";
+import { Specifications } from "../entities/Specifications";
 
 
 class CarsRepositorie implements ICarsRepositorie{
@@ -25,26 +26,28 @@ class CarsRepositorie implements ICarsRepositorie{
     async create({
         brand, 
         category_id,
-         daily_rate, 
-         description, 
-         fine_amount, 
-         license_plate, 
-         name,
-         specifications,
-         id
+        category,
+        daily_rate, 
+        description, 
+        fine_amount, 
+        license_plate, 
+        name,
+        specifications,
+        id
          
         }: ICreateCarDTO): Promise<Car> {
             
         const car = this.repository.create({
             brand, 
-            category_id, 
+            category_id,
+            category,
             daily_rate, 
             description, 
             fine_amount, 
             license_plate, 
             name,
             specifications,
-            id 
+            id
         })
 
         await this.repository.save(car)
@@ -52,15 +55,12 @@ class CarsRepositorie implements ICarsRepositorie{
         return car;
     }
 
-    findByName(name: string): Promise<Car> {
-        throw new Error("Method not implemented.");
-    }
-
     async listAvailableCars({brand,category_id,name}:IRequestCarDTO): Promise<Car[]> {
 
         const carsQuery = await this.repository
         .createQueryBuilder("cars")
         .leftJoinAndSelect("cars.specifications","specifications")
+        .leftJoinAndSelect("cars.category","category")
         .where("available = :available", { available:true })
 
         if(brand){
@@ -75,10 +75,23 @@ class CarsRepositorie implements ICarsRepositorie{
 
         const cars = carsQuery.getMany()
 
-
         return cars
 
      }
+
+     async specificationsAlreadyRegistered (car_id:string): Promise<Specifications[] | false> {
+        const carQuery = await this.repository
+        .createQueryBuilder("cars")
+        .leftJoinAndSelect("cars.specifications","specifications")
+        .where("car_id = :car_id", { car_id:car_id })
+        .getMany()
+
+        if(carQuery.length === 0){
+            return false
+        }
+
+        return carQuery[0].specifications
+    }
   
 
 }

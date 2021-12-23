@@ -11,6 +11,8 @@ import { ICategoryRepositorieMongo } from "../../modules/cars/infra/mongodb/inte
 import { ISpecificationRepositorieMongo } from "../../modules/cars/infra/mongodb/interfaces/ISpecificationRepositorieMongo"
 import { ICarsRepositorie } from "../../modules/cars/infra/typeorm/interfaces/ICarsRepositorie"
 import { CarsRepositorie } from "../../modules/cars/infra/typeorm/repositories/CarsRepository"
+import { ICarsImagesRepository } from "../../modules/cars/infra/typeorm/interfaces/ICarImagesRepositorie"
+import { CarImagesRepositorie } from "../../modules/cars/infra/typeorm/repositories/CarImagesRepositorie"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
@@ -40,4 +42,9 @@ container.registerSingleton<IUserRepositorie>(
 container.registerSingleton<ICarsRepositorie>(
     "CarsRepositorie",
     CarsRepositorie
+)
+
+container.registerSingleton<ICarsImagesRepository>(
+    "CarImagesRepositorie",
+    CarImagesRepositorie
 )

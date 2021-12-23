@@ -8,46 +8,45 @@
 # Cadastro de carro
 
 **RF**
-Deve ser possível cadastrar um novo carro.
+Deve ser possível cadastrar um novo carro. (ok)
 
 **RN**
-Não deve ser possível cadastrar um carro com uma placa já existente.
-O carro deve ser cadastrado, por padrão, com disponibilidade.
-Não deve ser possível cadastrar um novo carro utilizando um id de categoria não existente (validado por middleware)
-*O usuário responsável pelo cadastro deve ser um usuário administrador.(validado por middleware)
+Não deve ser possível cadastrar um carro com uma placa já existente. (ok)
+O carro deve ser cadastrado, por padrão, com disponibilidade. (ok)
+Não deve ser possível cadastrar um novo carro utilizando um id de categoria não existente (validado por middleware). (ok)
+*O usuário responsável pelo cadastro deve ser um usuário administrador.(validado por middleware). (ok)
 
 
 # Listagem  de carros
 
 **RF**
-Deve ser possível listar todos os carros disponíveis.
-Deve ser possível listar todos os carros disponíveis pelo nome da categoria.
-Deve ser possível listar todos os carros disponíveis pelo nome da marca.
-Deve ser possível listar todos os carros disponíveis pelo nome do carro.
+Deve ser possível listar todos os carros disponíveis. (ok)
+Deve ser possível listar todos os carros disponíveis pelo nome da categoria.(ok)
+Deve ser possível listar todos os carros disponíveis pelo nome da marca.(ok)
+Deve ser possível listar todos os carros disponíveis pelo nome do carro.(ok)
 
 **RN**
-O usuário não precisa estar logado no sistema.
+O usuário não precisa estar logado no sistema. (ok)
 
 
 # Cadastro de especificação no carro
 
 **RF**
-Deve ser possível cadastrar uma especificação para um carro.
+Deve ser possível cadastrar uma ou mais especificação para um carro, sem alterar as especificações já cadastradas (ok)
 
 
 
 **RN**
-Não deve ser possível cadastrar uma especificação para um carro não cadastrado.
-Não deve ser possível cadastrar uma mesma especificação para o mesmo carro.
-Não deve ser possível cadastrar uma especificação não existe para um carro.
-O usuário responsável pelo cadastro deve ser um usuário administrador.
+Não deve ser possível cadastrar uma especificação para um carro não cadastrado. (ok)
+Não deve ser possível cadastrar uma mesma especificação para o mesmo carro. (ok)
+Não deve ser possível cadastrar uma especificação não existente para um carro. (ok)
+O usuário responsável pelo cadastro deve ser um usuário administrador.(validado por middleware) (ok)
 
 
 # Cadastro de imagens do carro
 
 **RF**
 Deve ser possível cadastrar imagems para um carro.
-Deve ser possível listar todos os carros.
 
 **RNF**
 Utilizar o multer para o upload de arquivos.

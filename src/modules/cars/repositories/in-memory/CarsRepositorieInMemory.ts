@@ -1,11 +1,13 @@
 import { AppError } from "../../../../shared/errors/AppError";
 import { ICreateCarDTO } from "../../infra/dtos/ICreateCarDTO";
 import { Car } from "../../infra/typeorm/entities/Car";
+import { Specifications } from "../../infra/typeorm/entities/Specifications";
 import { ICarsRepositorie } from "../../infra/typeorm/interfaces/ICarsRepositorie";
 
 
 
 class CarsRepositorieInMemory implements ICarsRepositorie{
+
     cars:Car[] = []
 
     async create({brand, category_id, daily_rate, description, fine_amount,name, license_plate, available=true, specifications}: ICreateCarDTO): Promise<Car> {
@@ -69,6 +71,16 @@ class CarsRepositorieInMemory implements ICarsRepositorie{
     async findById(car_id: string): Promise<Car> {
         const car = this.cars.find(car => car.id === car_id)
         return car 
+    }
+
+    async specificationsAlreadyRegistered(car_id: string): Promise<false | Specifications[]> {
+        const car = this.cars.find(car => car.id === car_id )
+
+        if(!car.specifications){
+            return false
+        }
+
+        return car.specifications
     }
 
 

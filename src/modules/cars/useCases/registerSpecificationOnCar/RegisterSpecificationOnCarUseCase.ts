@@ -27,14 +27,32 @@ class RegisterSpecificationOnCarUseCase {
             throw new AppError("Car does not exists")
         }
 
-        const specifications = await this.specificationRepositorie.findByIds(specifications_id)
+        //Verificado se  os specifications_id existem no banco de dados
+        const listOfSpecificationsIDs = (await this.specificationRepositorie.list()).map(specification => specification.id)
 
-        carExists.specifications = specifications;
+        specifications_id.forEach(specification => {
 
-        const car = await this.carsRepositorie.create(carExists)
+           if(!listOfSpecificationsIDs.includes(specification)){
 
+                throw new AppError(`O ID of specification : ${specification} informed does not exists`)
+
+           }
+        })
+
+        const newSpecifications = await this.specificationRepositorie.findByIds(specifications_id)
+        
+        //Pegando as especificações já cadastradas para esse carro
+        const oldSpecifications = await this.carsRepositorie.specificationsAlreadyRegistered(car_id)
         
 
+        if(!oldSpecifications){
+            carExists.specifications = [...newSpecifications]
+        }else{
+            carExists.specifications = [...newSpecifications, ...oldSpecifications]
+        }
+
+        const car = await this.carsRepositorie.create(carExists)
+        
         return car
 
     }

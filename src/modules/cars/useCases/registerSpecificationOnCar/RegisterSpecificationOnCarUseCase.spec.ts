@@ -18,13 +18,16 @@ describe("Registar Specification on Car",()=>{
         registerSpecificationOnCarUseCase = new  RegisterSpecificationOnCarUseCase(carRepositorieInMemory,specificationRepositorieInMemory)
     })
 
-    it("should be able to register a new specification on the car",async ()=>{
+    it("should be able to register a new specification on the car, without removing the old ones",async ()=>{
    
 
         const specification = await specificationRepositorieInMemory.create({name:"NomeTeste",description:"DescriçãoTeste"})
         const specification2 = await specificationRepositorieInMemory.create({name:"NomeTeste2",description:"DescriçãoTeste2"})
+        const specification3 = await specificationRepositorieInMemory.create({name:"NomeTeste3",description:"DescriçãoTeste3"})
 
         const specifications_id=[specification.id, specification2.id]
+
+        const specification_id3 = [specification3.id]
 
         const car = await carRepositorieInMemory.create({
             name:"Nome teste",
@@ -46,6 +49,14 @@ describe("Registar Specification on Car",()=>{
         expect(carUpdated.specifications).toEqual(expect.arrayContaining([specification]))
 
         expect(carUpdated.specifications.length).toBe(2)
+
+
+        await registerSpecificationOnCarUseCase.execute({
+            car_id:car.id,
+            specifications_id:specification_id3
+        })
+
+        expect(carUpdated.specifications.length).toBe(3)
 
     
     })
