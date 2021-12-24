@@ -18,6 +18,10 @@ class CarImages{
     @Column()
     created_at:Date
 
+    @ManyToOne(() => Car, car => car.car_images, { eager:true })
+    @JoinColumn({name:'car_id'})
+    car : Car;
+
     constructor(){
         if(!this.id){
             this.id = uuidV4()

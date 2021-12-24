@@ -13,6 +13,8 @@ import { ICarsRepositorie } from "../../modules/cars/infra/typeorm/interfaces/IC
 import { CarsRepositorie } from "../../modules/cars/infra/typeorm/repositories/CarsRepository"
 import { ICarsImagesRepository } from "../../modules/cars/infra/typeorm/interfaces/ICarImagesRepositorie"
 import { CarImagesRepositorie } from "../../modules/cars/infra/typeorm/repositories/CarImagesRepositorie"
+import { IRentalsRepositorie } from "../../modules/cars/infra/typeorm/interfaces/IRentalsRepositorie"
+import { RentalRepositorie } from "../../modules/cars/infra/typeorm/repositories/RentalsRepositorie"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
@@ -47,4 +49,9 @@ container.registerSingleton<ICarsRepositorie>(
 container.registerSingleton<ICarsImagesRepository>(
     "CarImagesRepositorie",
     CarImagesRepositorie
+)
+
+container.registerSingleton<IRentalsRepositorie>(
+    "RentalRepositorie",
+    RentalRepositorie
 )
