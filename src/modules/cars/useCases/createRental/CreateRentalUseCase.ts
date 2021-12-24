@@ -16,11 +16,10 @@ class CreateRentalUseCase{
         private carsRepositorie:ICarsRepositorie
     ){}
 
-    async execute(car_id:string, user_id:string) : Promise<Rental>{
-
+    async execute(car_id:string, user_id:string, expected_return_date:Date, start_date:Date) : Promise<Rental>{
 
         //Verificando se o usuário já possui algum carro cadastrado
-        const userAlreadyHasARental = this.rentalRepositorie.findUserById(user_id)
+        const userAlreadyHasARental = await this.rentalRepositorie.findUserById(user_id)
 
         if(userAlreadyHasARental){
             throw new AppError('User already has a open rental')
@@ -30,10 +29,10 @@ class CreateRentalUseCase{
         const isCarAvailable = await this.carsRepositorie.findById(car_id)
 
         if(isCarAvailable.available === false) {
-            throw new AppError('Car is already taken')
+            throw new AppError('Car is not available')
         }
 
-        const rental = await this.rentalRepositorie.create()
+        const rental = await this.rentalRepositorie.create({car_id, user_id,expected_return_date,start_date})
 
         return rental
 

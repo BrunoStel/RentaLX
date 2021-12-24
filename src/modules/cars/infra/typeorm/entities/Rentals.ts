@@ -15,7 +15,7 @@ class Rental{
     @Column()
     start_date:Date;
 
-    @Column()
+    @Column({ nullable: true, default: null })
     end_date:Date;
 
     @Column()
