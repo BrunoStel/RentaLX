@@ -7,19 +7,11 @@ import { ICarsRepositorie } from "../../infra/typeorm/interfaces/ICarsRepositori
 
 
 class CarsRepositorieInMemory implements ICarsRepositorie{
-    
-    async turnUnavailable(car_id: string): Promise<void> {
+   
+    async changeAvailability(car_id: string, availability: boolean): Promise<void> {
         this.cars.filter((elem,index)=> 
         {if(elem.id === car_id){
-                this.cars[index].available = false 
-        }} )
-    }
-
-
-    async turnAvailable(car_id: string): Promise<void> {
-        this.cars.filter((elem,index)=> 
-        {if(elem.id === car_id){
-                this.cars[index].available = true 
+                this.cars[index].available = availability 
         }} )
     }
 

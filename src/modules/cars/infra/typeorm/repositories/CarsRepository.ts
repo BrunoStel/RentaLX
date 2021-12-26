@@ -95,29 +95,19 @@ class CarsRepositorie implements ICarsRepositorie{
     }
 
 
-    async turnUnavailable(car_id: string): Promise<void> {
+    async changeAvailability(car_id:string, availability:boolean): Promise<void> {
        const car = await this.repository.findOne(car_id)
 
        await this.repository
         .createQueryBuilder()
         .update(car)
-        .set({ available: false})
+        .set({ available: availability})
         .where("id= :id", {id:car_id})
         .execute()
 
     }
-  
 
-    async turnAvailable(car_id: string): Promise<void> {
-        const car = await this.repository.findOne(car_id)
  
-        await this.repository
-         .createQueryBuilder()
-         .update(car)
-         .set({ available: true})
-         .where("id= :id", {id:car_id})
-         .execute()
-    }
  
 }
 

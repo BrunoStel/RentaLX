@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { Rental } from "../../infra/typeorm/entities/Rentals";
 import { ICarsRepositorie } from "../../../cars/infra/typeorm/interfaces/ICarsRepositorie";
-import { IRentalsRepositorie } from "../../../cars/infra/typeorm/interfaces/IRentalsRepositorie";
+import { IRentalsRepositorie } from "../../infra/typeorm/interfaces/IRentalsRepositorie";
 import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
 
 @injectable()
@@ -21,6 +21,7 @@ class CreateRentalUseCase{
 
         //Verificando se o usuário já possui algum aluguel em aberto
         const userAlreadyHasARental = await this.rentalRepositorie.findUserById(user_id)
+
 
         if(userAlreadyHasARental === true){
             throw new AppError('User already has a open rental')
@@ -41,7 +42,8 @@ class CreateRentalUseCase{
 
         //Verificando se o rental é de no mínimo 24 horas
         const minimumHours = 24
-        const compare = this.dateProvider.compareInHours(expected_return_date)
+        const start_date = this.dateProvider.dateNow()
+        const compare = this.dateProvider.compareInHours(start_date, expected_return_date)
 
         if(compare < minimumHours){
             throw new AppError('The rental must be with at least 24 hours of rent')
@@ -50,7 +52,7 @@ class CreateRentalUseCase{
 
         const rental = await this.rentalRepositorie.create({car_id, user_id,expected_return_date})
 
-        await this.carsRepositorie.turnUnavailable(car_id)
+        await this.carsRepositorie.changeAvailability(car_id, false)
 
         return rental
 

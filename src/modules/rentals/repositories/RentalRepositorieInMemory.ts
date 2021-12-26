@@ -1,9 +1,10 @@
-import { IRentalsRepositorie, IRequest } from "../../cars/infra/typeorm/interfaces/IRentalsRepositorie";
+import { IRentalsRepositorie, IRequest } from "../infra/typeorm/interfaces/IRentalsRepositorie";
 import { Rental } from "../infra/typeorm/entities/Rentals";
 
 
 
 class RentalRepositorieInMemory implements IRentalsRepositorie{
+   
     rentals: Rental[] = []
 
     async create({car_id, user_id,expected_return_date}): Promise<Rental> {
@@ -35,6 +36,11 @@ class RentalRepositorieInMemory implements IRentalsRepositorie{
 
     async carReturn(id: string, total: number): Promise<void> {
         throw new Error("Method not implemented.");
+    }
+
+    async findById(id: string): Promise<Rental> {
+        const rental = this.rentals.find(elem => elem.id === id)
+        return rental
     }
     
 }

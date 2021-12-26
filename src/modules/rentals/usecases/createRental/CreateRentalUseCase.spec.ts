@@ -1,5 +1,5 @@
 import { ICarsRepositorie } from "../../../cars/infra/typeorm/interfaces/ICarsRepositorie"
-import { IRentalsRepositorie } from "../../../cars/infra/typeorm/interfaces/IRentalsRepositorie"
+import { IRentalsRepositorie } from "../../infra/typeorm/interfaces/IRentalsRepositorie"
 import { CarsRepositorieInMemory } from "../../../cars/repositories/in-memory/CarsRepositorieInMemory"
 import { RentalRepositorieInMemory } from "../../repositories/RentalRepositorieInMemory"
 import { CreateRentalUseCase } from "./CreateRentalUseCase"

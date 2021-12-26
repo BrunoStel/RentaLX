@@ -10,8 +10,8 @@ class DayJsDateProvider implements IDateProvider{
          return dayjs(date).utc().local().format()
      }
 
-     compareInHours(expected_return_date: Date): Number {
-        const startDateUTC = this.convertToUTC(this.dateNow())
+     compareInHours(start_date:Date, expected_return_date: Date): Number {
+        const startDateUTC = this.convertToUTC(start_date)
         const expectedDateUTC = this.convertToUTC(expected_return_date)
 
         return dayjs(expectedDateUTC).diff(startDateUTC, "hours")
