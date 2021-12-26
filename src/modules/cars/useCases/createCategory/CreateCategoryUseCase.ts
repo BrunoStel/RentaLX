@@ -1,7 +1,7 @@
 import { ICategoryRepositorie } from "../../infra/typeorm/interfaces/ICategoryRepositorie";
 import { inject, injectable } from "tsyringe"
 import { AppError } from "../../../../shared/errors/AppError";
-import { ICategoryRepositorieMongo } from "../../infra/mongodb/interfaces/ICategoryRepositorieMongo";
+
 
 interface IRequest {
     name: string;

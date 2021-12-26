@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "ts-node-dev --inspect --poll --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
-    "test": "jest"
+    "test": "cross-env NODE_ENV=test jest "
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.0",
+    "cross-env": "^7.0.3",
     "csv-parse": "^4.16.3",
     "dayjs": "^1.10.7",
     "express": "^4.17.1",

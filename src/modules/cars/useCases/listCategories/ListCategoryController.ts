@@ -11,7 +11,7 @@ class ListCategoryController {
         const listCategoryUseCase = container.resolve(ListCategoryUseCase)
         const categoriesAll = await listCategoryUseCase.execute();
 
-        return response.status(201).json(categoriesAll);
+        return response.status(200).json(categoriesAll);
     }
 }
 
