@@ -14,7 +14,9 @@ import { CarsRepositorie } from "../../modules/cars/infra/typeorm/repositories/C
 import { ICarsImagesRepository } from "../../modules/cars/infra/typeorm/interfaces/ICarImagesRepositorie"
 import { CarImagesRepositorie } from "../../modules/cars/infra/typeorm/repositories/CarImagesRepositorie"
 import { IRentalsRepositorie } from "../../modules/cars/infra/typeorm/interfaces/IRentalsRepositorie"
-import { RentalRepositorie } from "../../modules/cars/infra/typeorm/repositories/RentalsRepositorie"
+import { RentalRepositorie } from "../../modules/rentals/infra/typeorm/repositories/RentalsRepositorie"
+import { IDateProvider } from "./providers/DateProvider/IDateProvider"
+import { DayJsDateProvider } from "./providers/DateProvider/implementations/DayJsDateProvider"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
@@ -54,4 +56,9 @@ container.registerSingleton<ICarsImagesRepository>(
 container.registerSingleton<IRentalsRepositorie>(
     "RentalRepositorie",
     RentalRepositorie
+)
+
+container.registerSingleton<IDateProvider>(
+    "DayJsDateProvider",
+    DayJsDateProvider
 )

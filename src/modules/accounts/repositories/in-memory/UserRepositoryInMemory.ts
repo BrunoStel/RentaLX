@@ -7,7 +7,7 @@ class UserRepositoryInMemory implements IUserRepositorie{
     
     users: User[] = []
     
-    async create(data: ICreateUserDTO): Promise<void> {
+    async create(data: ICreateUserDTO): Promise<User> {
         const user = new User()
         Object.assign(user, {
             name:data.name,
@@ -18,6 +18,8 @@ class UserRepositoryInMemory implements IUserRepositorie{
         })
         
         this.users.push(user)
+
+        return user
     }
 
 

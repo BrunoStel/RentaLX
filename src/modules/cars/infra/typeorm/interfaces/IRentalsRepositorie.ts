@@ -1,10 +1,9 @@
-import { Rental } from "../entities/Rentals";
+import { Rental } from "../../../../rentals/infra/typeorm/entities/Rentals";
 
-interface IRequest{
+export interface IRequest{
     user_id:string,
     car_id:string,
-    expected_return_date:Date,
-    start_date:Date
+    expected_return_date:Date
 }
 
 export interface IRentalsRepositorie {

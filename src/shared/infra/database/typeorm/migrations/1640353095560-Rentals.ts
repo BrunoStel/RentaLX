@@ -23,10 +23,12 @@ export class Rentals1640353095560 implements MigrationInterface {
                     {
                         name:'start_date',
                         type:'timestamp',
+                        default:'now()'
                     },
                     {
                         name:'end_date',
                         type:'timestamp',
+                        isNullable:  true
                     },
                     {
                         name:'expected_return_date',
@@ -35,6 +37,7 @@ export class Rentals1640353095560 implements MigrationInterface {
                     {
                         name:'total',
                         type:'numeric',
+                        isNullable:  true
                     },
                     {
                         name:'created_at',
@@ -44,6 +47,12 @@ export class Rentals1640353095560 implements MigrationInterface {
                     {
                         name:'updated_date',
                         type:'timestamp',
+                        default:'now()'
+                    },
+                    {
+                        name:'finished',
+                        type:'boolean',
+                        default:'false'
                     },
                 ],
                 foreignKeys:[

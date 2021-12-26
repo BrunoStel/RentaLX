@@ -3,6 +3,7 @@ import {ICreateUserDTO, IUserRepositorie } from "../../infra/typeorm/interfaces/
 import { inject, injectable } from "tsyringe"
 import { hash } from "bcryptjs";
 import { AppError } from "../../../../shared/errors/AppError";
+import { User } from "../../infra/typeorm/entities/User";
 
 @injectable()
 class CreateUserUseCase {
@@ -10,7 +11,7 @@ class CreateUserUseCase {
         @inject("UserRepository")
         private userRepository: IUserRepositorie) {}
 
-    async execute({ name, password, username, email,driver_license }: ICreateUserDTO): Promise<void> {
+    async execute({ name, password, username, email,driver_license }: ICreateUserDTO): Promise<User> {
 
         const passwordHash = await hash(password, 8)
         
@@ -22,7 +23,9 @@ class CreateUserUseCase {
             throw new AppError("Username already in use");
         }
 
-        await this.userRepository.create({ name, password:passwordHash, username, email, driver_license });
+        const user = await this.userRepository.create({ name, password:passwordHash, username, email, driver_license });
+
+        return user
     }
 }
 

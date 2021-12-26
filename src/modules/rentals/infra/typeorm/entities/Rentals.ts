@@ -30,6 +30,9 @@ class Rental{
     @CreateDateColumn()
     created_at:Date;
 
+    @CreateDateColumn()
+    finished:Boolean;
+
     constructor(){
        if(!this.id){
            this.id = uuidV4()

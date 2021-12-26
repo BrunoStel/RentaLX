@@ -1,7 +1,7 @@
 import { now } from "mongoose";
-import { getRepository, IsNull, Repository } from "typeorm";
+import { getRepository, Repository } from "typeorm";
 import { Rental } from "../entities/Rentals";
-import { IRentalsRepositorie } from "../interfaces/IRentalsRepositorie";
+import { IRentalsRepositorie } from "../../../../cars/infra/typeorm/interfaces/IRentalsRepositorie";
 
 
 
@@ -13,12 +13,15 @@ class RentalRepositorie implements IRentalsRepositorie{
     }
 
     async findUserById(user_id:string): Promise<Boolean> {
-        const user = await this.repository
+        const userQuery = await this.repository
         .createQueryBuilder("rentals")
         .where("user_id = :user_id", { user_id:user_id })
-        .andWhere("end_date = :end_date", {end_date: IsNull() } )
+        .where("finished = :finished", {finished: false} )
 
-        if(!user){
+        const user = await userQuery.getMany()
+
+        
+        if(user.length === 0){
             return false
         }else{
             return true
@@ -26,12 +29,12 @@ class RentalRepositorie implements IRentalsRepositorie{
 
     }
     
-    async create({car_id, user_id,expected_return_date, start_date}): Promise<Rental> {
+    async create({car_id, user_id,expected_return_date}): Promise<Rental> {
         const rental = this.repository.create({
             car_id,
             user_id,
             expected_return_date,
-            start_date,
+            start_date:now(),
             end_date:null,
             updated_date:now()
         })

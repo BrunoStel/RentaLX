@@ -9,6 +9,8 @@ interface ICarsRepositorie {
     listAvailableCars({brand,category_id,name}:IRequestCarDTO):Promise<Car[]> 
     findById(car_id:string):Promise<Car>
     specificationsAlreadyRegistered(car_id:string):Promise<Specifications[] | false>
+    turnUnavailable(car_id:string):Promise<void>
+    turnAvailable(car_id:string):Promise<void>
 }
 
 export { ICarsRepositorie }
