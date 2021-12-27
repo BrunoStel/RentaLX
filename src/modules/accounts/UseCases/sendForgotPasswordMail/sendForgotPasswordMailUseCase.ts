@@ -5,6 +5,7 @@ import { IDateProvider } from "../../../../shared/providers/DateProvider/IDatePr
 import { IMailProvider } from "../../../../shared/providers/MailProvides/IMailProvider";
 import { IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
 import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/IUserTokensRepositorie";
+import {resolve} from 'path'
 
 
 @injectable()
@@ -26,6 +27,8 @@ class sendForgotPasswordMailUseCaser {
         
         const user = await this.usersRepositorie.findByEmail(email)
 
+        const templatePath = resolve(__dirname, "..", "..", "views", "emails", "forgotPassword.hbs")
+
 
         if(!user){
             throw new AppError("Email not found in the database")
@@ -41,9 +44,16 @@ class sendForgotPasswordMailUseCaser {
             expires_date
         })
 
-        await this.mailProvider.sendMail(email, "Recuperação de senha", `O Link para o
-        reset é ${token}`)
+        const variables ={
+            name:user.name,
+            link:`${process.env.FORGOT_MAIL_URL}${token}`,
+        }
 
+        await this.mailProvider.sendMail(email, 
+            "Recuperação de senha",
+            variables,
+            templatePath
+        )
     }
 
 
