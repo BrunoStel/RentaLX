@@ -18,6 +18,8 @@ import { IDateProvider } from "../providers/DateProvider/IDateProvider"
 import { DayJsDateProvider } from "../providers/DateProvider/implementations/DayJsDateProvider"
 import { IUserTokensRepositorie } from "../../modules/accounts/infra/typeorm/interfaces/IUserTokensRepositorie"
 import { UserTokensRepositorie } from "../../modules/accounts/infra/typeorm/repositories/UserTokensRepositorie"
+import { IMailProvider } from "../providers/MailProvides/IMailProvider"
+import { EtherealMailProvider } from "../providers/MailProvides/implementations/EtherealMailProvider"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
@@ -67,4 +69,11 @@ container.registerSingleton<IDateProvider>(
 container.registerSingleton<IUserTokensRepositorie>(
     "UserTokensRepositorie",
     UserTokensRepositorie
+)
+
+
+
+container.registerInstance<IMailProvider>(
+    "EtherealMailProvider",
+    new EtherealMailProvider()
 )
