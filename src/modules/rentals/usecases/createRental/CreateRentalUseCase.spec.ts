@@ -7,8 +7,8 @@ import { IUserRepositorie} from "../../../accounts/infra/typeorm/interfaces/IUse
 import { UserRepositoryInMemory } from "../../../accounts/repositories/in-memory/UserRepositoryInMemory"
 import { AppError } from "../../../../shared/errors/AppError"
 import dayjs from "dayjs"
-import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider"
-import { DayJsDateProvider } from "../../../../shared/container/providers/DateProvider/implementations/DayJsDateProvider"
+import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider"
+import { DayJsDateProvider } from "../../../../shared/providers/DateProvider/implementations/DayJsDateProvider"
 
 
 describe("Create Rental", ()=>{

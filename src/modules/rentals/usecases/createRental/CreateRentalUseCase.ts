@@ -3,7 +3,7 @@ import { AppError } from "../../../../shared/errors/AppError";
 import { Rental } from "../../infra/typeorm/entities/Rentals";
 import { ICarsRepositorie } from "../../../cars/infra/typeorm/interfaces/ICarsRepositorie";
 import { IRentalsRepositorie } from "../../infra/typeorm/interfaces/IRentalsRepositorie";
-import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
+import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider";
 
 @injectable()
 class CreateRentalUseCase{

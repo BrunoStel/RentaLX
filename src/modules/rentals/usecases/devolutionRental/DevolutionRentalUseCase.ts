@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
+import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider";
 import { AppError } from "../../../../shared/errors/AppError";
 import { ICarsRepositorie } from "../../../cars/infra/typeorm/interfaces/ICarsRepositorie";
 import { IRentalsRepositorie } from "../../infra/typeorm/interfaces/IRentalsRepositorie";
