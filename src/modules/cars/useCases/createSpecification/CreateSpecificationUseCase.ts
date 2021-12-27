@@ -1,7 +1,6 @@
 import { ICreateCategoryDTO } from "../../infra/typeorm/interfaces/ICategoryRepositorie";
 import { inject, injectable } from "tsyringe"
 import { AppError } from "../../../../shared/errors/AppError";
-import { ISpecificationRepositorieMongo } from "../../infra/mongodb/interfaces/ISpecificationRepositorieMongo";
 import { ISpecificationRepositorie } from "../../infra/typeorm/interfaces/ISpecificationsRepositorie";
 
 

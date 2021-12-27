@@ -11,6 +11,22 @@ class RentalRepositorie implements IRentalsRepositorie{
     constructor(){
         this.repository = getRepository(Rental)
     }
+    
+    async create({car_id, user_id,expected_return_date,id,end_date, total, finished}): Promise<Rental> {
+        const rental = this.repository.create({
+            car_id,
+            user_id,
+            expected_return_date,
+            id,
+            end_date,
+            total,
+            finished
+
+        })
+        await this.repository.save(rental)
+
+        return rental
+    }
 
     async findUserById(user_id:string): Promise<Boolean> {
         const userQuery = await this.repository
@@ -25,42 +41,24 @@ class RentalRepositorie implements IRentalsRepositorie{
         }else{
             return true
         }
-
-    }
-    
-    async create({car_id, user_id,expected_return_date,id,end_date, total, finished}): Promise<Rental> {
-        const rental = this.repository.create({
-            car_id,
-            user_id,
-            expected_return_date,
-            id,
-            end_date,
-            total,
-            finished
-
-        })
-
-        await this.repository.save(rental)
-
-        return rental
-
     }
 
-    async carReturn(id:string, total:number): Promise<void> {
-        const rental = this.repository.create({
-            id,
-            end_date: now(),
-            updated_date:now(),
-            total
-        })
-
-        await this.repository.save(rental)
-    }
 
     async findById(id: string): Promise<Rental> {
         const rental = await this.repository.findOne(id)
 
         return rental
+    }
+
+     async findRentalsById(id: string): Promise<Rental[]> {
+        const rentalsQuery = await this.repository
+        .createQueryBuilder("rentals")
+        .where("user_id =:user_id",{user_id:id})
+
+        const rentals = await rentalsQuery.getMany()
+
+        return rentals
+
     }
     
 }

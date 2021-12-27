@@ -13,6 +13,6 @@ export interface IRequest{
 export interface IRentalsRepositorie {
     create({}:IRequest):Promise<Rental>
     findUserById(user_id:string):Promise<Boolean>
-    carReturn(id:string, total:number):Promise<void>
     findById(id:string):Promise<Rental>
+    findRentalsById(id:string):Promise<Rental[]>
 }

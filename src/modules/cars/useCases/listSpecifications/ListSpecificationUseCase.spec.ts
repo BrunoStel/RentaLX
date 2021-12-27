@@ -1,17 +1,14 @@
 import { SpecificationRepositorieInMemory } from "../../repositories/in-memory/SpecificationRepositorieInMemory"
-import { CreateSpecificationUseCase } from "../createSpecification/CreateSpecificationUseCase"
 import { ListEspecificationUseCase } from "./ListSpecificationUseCase"
 
 
 describe("List Especification Use Case", ()=>{
 
     let specificationRepositorieInMemory: SpecificationRepositorieInMemory
-    let createSpecificationUseCase: CreateSpecificationUseCase
     let listSpecificationUseCase: ListEspecificationUseCase
 
     beforeEach(()=>{
         specificationRepositorieInMemory = new SpecificationRepositorieInMemory()
-        createSpecificationUseCase = new CreateSpecificationUseCase(specificationRepositorieInMemory)
         listSpecificationUseCase = new ListEspecificationUseCase(specificationRepositorieInMemory)
     })
 

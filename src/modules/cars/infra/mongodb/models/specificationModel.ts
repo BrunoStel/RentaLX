@@ -1,6 +1,6 @@
-import { mongooseConnection } from "../../../../../shared/infra/database/mongodb/mongoConnection";
-import { specificationSchema } from "../schemas/specificationSchema";
+// import { mongooseConnection } from "../../../../../shared/infra/database/mongodb/mongoConnection";
+// import { specificationSchema } from "../schemas/specificationSchema";
 
-const specificationModel = mongooseConnection.model("Specifications", specificationSchema,"Specifications")
+// const specificationModel = mongooseConnection.model("Specifications", specificationSchema,"Specifications")
 
-export { specificationModel }
+// export { specificationModel }

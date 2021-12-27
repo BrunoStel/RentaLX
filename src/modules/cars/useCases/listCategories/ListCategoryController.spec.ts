@@ -26,7 +26,7 @@ describe("Create Category Controller", ()=>{
         );
     })
 
-    afterEach(async ()=>{
+    afterAll(async ()=>{
     await connection.dropDatabase()
      await connection.close()
     })

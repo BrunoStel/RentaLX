@@ -20,7 +20,7 @@ interface IOptions {
     })
   )
 }
-
+if(process.env.NODE_ENV != 'test'){
   getConnectionOptions().then(options => {
     const newOptions = options as IOptions;
     newOptions.host = 'database_ignite'; //Essa opção deverá ser EXATAMENTE o nome dado ao service do banco de dados
@@ -28,4 +28,5 @@ interface IOptions {
       ...options,
     });
   });
+}
 
