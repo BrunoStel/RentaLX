@@ -20,6 +20,9 @@ import { IUserTokensRepositorie } from "../../modules/accounts/infra/typeorm/int
 import { UserTokensRepositorie } from "../../modules/accounts/infra/typeorm/repositories/UserTokensRepositorie"
 import { IMailProvider } from "../providers/MailProvides/IMailProvider"
 import { EtherealMailProvider } from "../providers/MailProvides/implementations/EtherealMailProvider"
+import { IStorageProvider } from "../providers/StorageProvider/IStorageProvider"
+import { LocalStorageProvider } from "../providers/StorageProvider/implementations/LocalStorageProvider"
+import { S3StorageProvider } from "../providers/StorageProvider/implementations/S3StorageProviders"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
@@ -77,3 +80,16 @@ container.registerInstance<IMailProvider>(
     "EtherealMailProvider",
     new EtherealMailProvider()
 )
+
+
+
+container.registerSingleton<IStorageProvider>(
+    "LocalStorageProvider",
+    LocalStorageProvider
+)
+
+container.registerSingleton<IStorageProvider>(
+    "S3StorageProvider",
+    S3StorageProvider
+)
+

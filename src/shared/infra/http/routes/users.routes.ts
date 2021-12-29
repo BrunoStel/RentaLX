@@ -9,12 +9,12 @@ import uploadConfig from "../../../../config/upload"
 
 const userRoutes = Router();
 
-const uploadAvatar = multer(uploadConfig.upload("./tmp/avatar"))
+const uploadAvatar = multer(uploadConfig)
 
 
-const createUserController = new CreateUserController;
-const listUsersController = new ListUsersController;
-const updateUserAvatarController = new UpdateUserAvatarController
+const createUserController = new CreateUserController();
+const listUsersController = new ListUsersController();
+const updateUserAvatarController = new UpdateUserAvatarController()
 
 
 userRoutes.post("/", celebrate({
@@ -31,6 +31,9 @@ createUserController.handle)
 userRoutes.get("/",
 listUsersController.handle)
 
-userRoutes.patch("/avatar", ensureAuthenticated, uploadAvatar.single("avatar"), updateUserAvatarController.handle)
+userRoutes.patch("/avatar", 
+ensureAuthenticated, 
+uploadAvatar.single("avatar"), 
+updateUserAvatarController.handle)
 
 export { userRoutes }

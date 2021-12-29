@@ -25,7 +25,7 @@ const registerSpecificationOnCarController = new RegisterSpecificationOnCarContr
 
 const uploadImagesController = new UploadImagesController()
 
-const uploadCarImages = multer(uploadConfig.upload("./tmp/cars"))
+const uploadCarImages = multer(uploadConfig)
 
 
 carsRoutes.post("/", celebrate({
