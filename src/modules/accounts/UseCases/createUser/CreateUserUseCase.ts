@@ -5,11 +5,11 @@ import { hash } from "bcryptjs";
 import { AppError } from "../../../../shared/errors/AppError";
 import { User } from "../../infra/typeorm/entities/User";
 
-@injectable()
+//@injectable()
 class CreateUserUseCase {
     constructor(
-        @inject("UserRepository")
-        private userRepository: IUserRepositorie) {}
+        //@inject("UserRepository")
+        private readonly userRepository: IUserRepositorie) {}
 
     async execute({ name, password, username, email,driver_license }: ICreateUserDTO): Promise<User> {
 
