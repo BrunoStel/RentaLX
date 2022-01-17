@@ -10,11 +10,11 @@ import { CreateUserUseCase } from "./CreateUserUseCase"
 class UserRepositoryStub implements ICreateUserRepositorie {
     async create(data: ICreateUserDTO): Promise<User> {
         const user = {
-            name:'any_name',
-            password:'any_password',
-            username:'any_username',
-            email:'any_email@email.com',
-            driver_license:'any_driverLicense',
+            name:data.name,
+            password:data.password,
+            username:data.username,
+            email:data.email,
+            driver_license:data.driver_license,
             id:'any_id',
             isAdmin: false,
             avatar: 'any_avatar',
@@ -72,29 +72,7 @@ const makeUser = (): ICreateUserDTO => {
 
 
 describe("CreateUserUseCase", ()=>{
-    
 
-    // it('Should return an user on sucess ', async ()=>{
-    //     const { sut, userRepositoryStub } = makeSut ()
-    //     const user = makeUser()
-
-    //     await sut.execute(user)
-
-    //     await userRepositoryStub.findByUsername(user.username)
-        
-    //     // expect(userExpected).toHaveProperty('id')
-
-    // })
-    it('Should call Encrypter with correct password ', async ()=>{
-        const { sut, encrypterStub } = makeSut ()
-        const user = makeUser()
-        const findByUserNameSpy = jest.spyOn(encrypterStub, 'hash')
-
-        await sut.execute(user)
-        
-        expect(findByUserNameSpy).toHaveBeenCalledWith(user.password)
-
-    })
     it('Should throws if Encrypter throws ', async ()=>{
         const { sut, encrypterStub } = makeSut ()
     
@@ -182,6 +160,27 @@ describe("CreateUserUseCase", ()=>{
             
         await expect(promise).rejects.toThrow()
     
+    })
+    it('Should return an user on sucess ', async ()=>{
+        const { sut, userRepositoryStub } = makeSut ()
+        const user = makeUser()
+
+        const userCreated = await sut.execute(user)
+
+        
+        expect(userCreated).toHaveProperty('id')
+        expect(userCreated).toEqual({
+            name:'any_name',
+            password:'password_hash',
+            username:'any_username',
+            email:'ane_email@email.com',
+            driver_license:'any_driverLicense',
+            id:'any_id',
+            isAdmin: false,
+            avatar: 'any_avatar',
+            created_at: new Date()
+        })
+
     })
 
 })
