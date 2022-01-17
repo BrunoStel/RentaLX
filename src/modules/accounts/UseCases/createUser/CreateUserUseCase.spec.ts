@@ -62,16 +62,8 @@ const makeUser = (): ICreateUserDTO => {
 
 describe("CreateUserUseCase", ()=>{
     
-    // let userRepositoryInMemory: UserRepositoryInMemory
-    // let createUserUseCase: CreateUserUseCase
 
-    // beforeEach(()=>{
-    //     userRepositoryInMemory = new UserRepositoryInMemory()
-    //     createUserUseCase = new CreateUserUseCase(userRepositoryInMemory)
-    // })
-
-
-    // it('Should return user on sucess ', async ()=>{
+    // it('Should return an user on sucess ', async ()=>{
     //     const { sut, userRepositoryStub } = makeSut ()
     //     const user = makeUser()
 
@@ -82,7 +74,7 @@ describe("CreateUserUseCase", ()=>{
     //     // expect(userExpected).toHaveProperty('id')
 
     // })
-    it('Should call findByUsernameProvider with correct username ', async ()=>{
+    it('Should call FindByUsernameProvider with correct username ', async ()=>{
         const { sut, findByUsernameProviderStub } = makeSut ()
         const user = makeUser()
         const findByUserNameSpy = jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists')
@@ -92,7 +84,7 @@ describe("CreateUserUseCase", ()=>{
         expect(findByUserNameSpy).toHaveBeenCalledWith(user.username)
 
     })
-    it('Should return new AppError if findByUsernameProvider returns true ', async ()=>{
+    it('Should return new AppError if FindByUsernameProvider returns true ', async ()=>{
     const { sut, findByUsernameProviderStub } = makeSut ()
 
     const user = makeUser()
@@ -104,8 +96,7 @@ describe("CreateUserUseCase", ()=>{
     await expect(promise).rejects.toEqual(new AppError("Username already in use"))
 
     })
-
-    it('Should throws if findByUsername throws ', async ()=>{
+    it('Should throws if FindByUsernameProvider throws ', async ()=>{
     const { sut, findByUsernameProviderStub } = makeSut ()
 
     const user = makeUser()
@@ -120,24 +111,20 @@ describe("CreateUserUseCase", ()=>{
     await expect(promise).rejects.toThrow()
 
     })
+    it('Should throws if CreateUserRepositorie throws ', async ()=>{
+        const { sut, userRepositoryStub } = makeSut ()
+    
+        const user = makeUser()
+    
+        jest.spyOn(userRepositoryStub, 'create').mockImplementationOnce(() => {
+            throw new Error()
+          })
+    
+        const promise = sut.execute(user)
+    
+            
+        await expect(promise).rejects.toThrow()
+    
+        })
 
-    // it('Should not create user with the same username', async ()=>{
-        
-    //     expect(async()=>{
-
-    //         const user = {
-    //             name:'Teste',
-    //             password:'Senha teste',
-    //             username:'User Teste',
-    //             email:'userteste@email.com',
-    //             driver_license:'DriverLicenseTest' 
-    //         }
-    //         await createUserUseCase.execute(user)
-
-    //         await createUserUseCase.execute(user)
-
-    //     }).rejects.toBeInstanceOf(AppError)
-       
-
-    // })
 })
