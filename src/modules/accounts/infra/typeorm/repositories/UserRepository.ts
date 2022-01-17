@@ -1,10 +1,15 @@
 import { getRepository, Repository } from "typeorm";
 import { User } from "../entities/User";
+import { ICreateUserRepositorie } from "../interfaces/ICreateUserRepositorie copy";
+import { IFindByEmailUserRepositorie } from "../interfaces/IfindByEmailUserRepositorie";
+import { IFindByIDUserRepositorie } from "../interfaces/IfindByIDRepositorie";
+import { IFindByUsernameUserRepositorie } from "../interfaces/IFindByUsernameUserRepositorie";
+import { IListUserRepositorie } from "../interfaces/IListUserRepositorie";
 import { ICreateUserDTO, IUserRepositorie } from "../interfaces/IUserRepositorie";
 
 
 
-class UserRepository implements IUserRepositorie {
+class UserRepository implements ICreateUserRepositorie, IFindByEmailUserRepositorie, IFindByIDUserRepositorie, IFindByUsernameUserRepositorie, IListUserRepositorie {
     private repository: Repository<User>;
     
     constructor() {

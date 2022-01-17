@@ -1,37 +1,31 @@
 import { AppError } from "../../../../shared/errors/AppError"
 import { User } from "../../infra/typeorm/entities/User"
-import { ICreateUserDTO, IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie"
+import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/ICreateUserRepositorie copy"
+import { IFindByUsernameUserRepositorie } from "../../infra/typeorm/interfaces/IFindByUsernameUserRepositorie"
+import { ICreateUserDTO } from "../../infra/typeorm/interfaces/IUserRepositorie"
 import { CreateUserUseCase } from "./CreateUserUseCase"
 
-const makeUserRepositoryStub = (): IUserRepositorie => {
-    class UserRepositoryStub implements IUserRepositorie {
-        async create(data: ICreateUserDTO): Promise<User> {
-            const user = {
-                name:'any_name',
-                password:'any_password',
-                username:'any_username',
-                email:'ane_email@email.com',
-                driver_license:'any_driverLicense',
-                id:'any_id',
-                isAdmin: false,
-                avatar: 'any_avatar',
-                created_at: new Date()
-            }
-            return user
+class UserRepositoryStub implements ICreateUserRepositorie, IFindByUsernameUserRepositorie {
+    async create(data: ICreateUserDTO): Promise<User> {
+        const user = {
+            name:'any_name',
+            password:'any_password',
+            username:'any_username',
+            email:'ane_email@email.com',
+            driver_license:'any_driverLicense',
+            id:'any_id',
+            isAdmin: false,
+            avatar: 'any_avatar',
+            created_at: new Date()
         }
-       async findByUsername(username: string): Promise<User> {
-            return null
-        }
-        list(): Promise<User[]> {
-            throw new Error("Method not implemented.")
-        }
-        findByID(id: string): Promise<User> {
-            throw new Error("Method not implemented.")
-        }
-        findByEmail(email: string): Promise<User> {
-            throw new Error("Method not implemented.")
-        }
+        return user
     }
+   async findByUsername(username: string): Promise<User> {
+        return null
+    }
+}
+
+const makeUserRepositoryStub = (): UserRepositoryStub => {
 
     const userRepositoryStub = new UserRepositoryStub()
 
@@ -40,12 +34,12 @@ const makeUserRepositoryStub = (): IUserRepositorie => {
 
 interface ISut {
     sut: CreateUserUseCase
-    userRepositoryStub: IUserRepositorie
+    userRepositoryStub: UserRepositoryStub
 }
 
 const makeSut = (): ISut => {
     const userRepositoryStub = makeUserRepositoryStub()
-    const sut = new CreateUserUseCase(userRepositoryStub)
+    const sut = new CreateUserUseCase(userRepositoryStub,userRepositoryStub)
     return {
         sut,
         userRepositoryStub
