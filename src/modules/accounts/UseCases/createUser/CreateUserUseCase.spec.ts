@@ -97,7 +97,7 @@ describe("CreateUserUseCase", ()=>{
 
     const user = makeUser()
 
-    jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists').mockResolvedValue(true)
+    jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists').mockResolvedValueOnce(true)
 
     const promise = sut.execute(user)
         
@@ -105,22 +105,21 @@ describe("CreateUserUseCase", ()=>{
 
     })
 
-    // it('Should throws if findByUsername throws ', async ()=>{
-    // const { sut, userRepositoryStub } = makeSut ()
+    it('Should throws if findByUsername throws ', async ()=>{
+    const { sut, findByUsernameProviderStub } = makeSut ()
 
-    // const user = makeUser()
+    const user = makeUser()
 
-    // jest.spyOn(userRepositoryStub, 'findByUsername').mockResolvedValueOnce(
-    //     new Promise((resolve, reject) => reject(new Error()))
-    //     )
+    jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists').mockImplementationOnce(() => {
+        throw new Error()
+      })
 
-    // user.username = 'another_user'
-    // const promise = sut.execute(user)
+    const promise = sut.execute(user)
 
         
-    // await expect(promise).rejects.toEqual(new Error())
+    await expect(promise).rejects.toThrow()
 
-    // })
+    })
 
     // it('Should not create user with the same username', async ()=>{
         
