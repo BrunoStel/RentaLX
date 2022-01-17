@@ -5,7 +5,6 @@ import { SpecificationRepositorie } from "../../modules/cars/infra/typeorm/repos
 import { UserRepository } from "../../modules/accounts/infra/typeorm/repositories/UserRepository"
 import { ISpecificationRepositorie } from "../../modules/cars/infra/typeorm/interfaces/ISpecificationsRepositorie"
 import { IUserRepositorie } from "../../modules/accounts/infra/typeorm/interfaces/IUserRepositorie"
-
 import { ICategoryRepositorieMongo } from "../../modules/cars/infra/mongodb/interfaces/ICategoryRepositorieMongo"
 import { ISpecificationRepositorieMongo } from "../../modules/cars/infra/mongodb/interfaces/ISpecificationRepositorieMongo"
 import { ICarsRepositorie } from "../../modules/cars/infra/typeorm/interfaces/ICarsRepositorie"
@@ -23,6 +22,10 @@ import { EtherealMailProvider } from "../providers/MailProvider/implementations/
 import { IStorageProvider } from "../providers/StorageProvider/IStorageProvider"
 import { LocalStorageProvider } from "../providers/StorageProvider/implementations/LocalStorageProvider"
 import { S3StorageProvider } from "../providers/StorageProvider/implementations/S3StorageProviders"
+import { IFindByUsernameProvider } from "../providers/FindByUsername/IFindByUsernameProvider"
+import { FindByUsernameProvider } from "../providers/FindByUsername/implementations/FindByUsernameProvider"
+import { IEncrypterAdapter } from "../adapter/IEncrypterAdapter"
+import { BCrypterAdapter } from "../adapter/Bcrypt/BCryptAdapter"
 
 container.registerSingleton<ICategoryRepositorie>(
     "CategoriesRepository",
@@ -93,3 +96,14 @@ container.registerSingleton<IStorageProvider>(
     S3StorageProvider
 )
 
+
+container.registerSingleton<IFindByUsernameProvider>(
+    "FindByUsernameProvider",
+    FindByUsernameProvider
+)
+
+
+container.registerInstance<IEncrypterAdapter>(
+    "BCrypterAdapter",
+    new BCrypterAdapter(12)
+)

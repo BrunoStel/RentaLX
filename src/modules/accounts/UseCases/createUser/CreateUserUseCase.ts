@@ -3,16 +3,20 @@ import { User } from "../../infra/typeorm/entities/User";
 import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/ICreateUserRepositorie copy";
 import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider";
 import { IEncrypterAdapter } from "../../../../shared/adapter/IEncrypterAdapter";
-import { ICreateUser, ICreateUserDTO } from "./ICreateUser";
+import { ICreateUserDTO } from "./ICreateUser";
+import { inject, injectable } from "tsyringe";
 
-class CreateUserUseCase implements ICreateUser{
+@injectable()
+class CreateUserUseCase{
     constructor(
+        @inject('FindByUsernameProvider')
         private readonly findByUsernameProvider: IFindByUsernameProvider,
+        @inject('UserRepository')
         private readonly createUserRepositorie: ICreateUserRepositorie,
+        @inject('BCrypterAdapter')
         private readonly encrypter: IEncrypterAdapter) {}
 
     async execute({ name, password, username, email,driver_license }: ICreateUserDTO): Promise<User> {
-
         const passwordHash = await this.encrypter.hash(password)
         
         

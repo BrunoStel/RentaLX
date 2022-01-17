@@ -1,11 +1,11 @@
-import { getRepository, Repository } from "typeorm";
+import { getManager, getRepository, Repository } from "typeorm";
 import { User } from "../entities/User";
 import { ICreateUserRepositorie } from "../interfaces/ICreateUserRepositorie copy";
 import { IFindByEmailUserRepositorie } from "../interfaces/IfindByEmailUserRepositorie";
-import { IFindByIDUserRepositorie } from "../interfaces/IfindByIDRepositorie";
+import { IFindByIDUserRepositorie } from "../interfaces/IFindByIDRepositorie";
 import { IFindByUsernameUserRepositorie } from "../interfaces/IFindByUsernameUserRepositorie";
 import { IListUserRepositorie } from "../interfaces/IListUserRepositorie";
-import { ICreateUserDTO, IUserRepositorie } from "../interfaces/IUserRepositorie";
+import { ICreateUserDTO } from "../interfaces/IUserRepositorie";
 
 
 
@@ -13,10 +13,11 @@ class UserRepository implements ICreateUserRepositorie, IFindByEmailUserReposito
     private repository: Repository<User>;
     
     constructor() {
-        this.repository = getRepository(User);
-    }
+            this.repository =  getRepository(User)
+        }
 
     async create({ name, password,username, email, driver_license, avatar,id }: ICreateUserDTO): Promise<User> {
+
         const user = this.repository.create({
             name,
             password,
@@ -52,5 +53,7 @@ class UserRepository implements ICreateUserRepositorie, IFindByEmailUserReposito
         return user;  
     }
 }
+
+
 
 export {UserRepository}
