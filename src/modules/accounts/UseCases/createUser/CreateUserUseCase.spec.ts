@@ -97,6 +97,26 @@ describe("CreateUserUseCase", ()=>{
         expect(findByUserNameSpy).toHaveBeenCalledWith(user.username)
 
     })
+    it('Should return new AppError if findByUsername returns an user ', async ()=>{
+        const { sut, userRepositoryStub } = makeSut ()
+        const user = makeUser()
+        jest.spyOn(userRepositoryStub, 'findByUsername').mockResolvedValue({
+            name:'any_name',
+            password:'any_password',
+            username:'any_username',
+            email:'ane_email@email.com',
+            driver_license:'any_driverLicense',
+            id:'any_id',
+            isAdmin: false,
+            avatar: 'any_avatar',
+            created_at: new Date()
+        })
+
+    const promise = sut.execute(user)
+        
+    await expect(promise).rejects.toEqual(new AppError("Username already in use"))
+
+    })
 
     // it('Should not create user with the same username', async ()=>{
         
