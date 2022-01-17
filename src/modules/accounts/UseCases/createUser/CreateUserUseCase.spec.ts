@@ -1,3 +1,4 @@
+import { IEncrypterAdapter } from "../../../../shared/adapter/IEncrypterAdapter"
 import { AppError } from "../../../../shared/errors/AppError"
 import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider"
 import { User } from "../../infra/typeorm/entities/User"
@@ -30,20 +31,30 @@ class FindByUsernameProviderStub implements IFindByUsernameProvider {
     
 }
 
+class EncrypterStub implements IEncrypterAdapter {
+    async hash (password: string): Promise<string> {
+        return 'password_hash'
+    }
+    
+}
+
 interface ISut {
     sut: CreateUserUseCase
-    userRepositoryStub: UserRepositoryStub,
+    userRepositoryStub: UserRepositoryStub
     findByUsernameProviderStub: FindByUsernameProviderStub
+    encrypterStub: EncrypterStub
 }
 
 const makeSut = (): ISut => {
     const userRepositoryStub = new UserRepositoryStub()
     const findByUsernameProviderStub = new FindByUsernameProviderStub()
-    const sut = new CreateUserUseCase(findByUsernameProviderStub,userRepositoryStub)
+    const encrypterStub = new EncrypterStub()
+    const sut = new CreateUserUseCase(findByUsernameProviderStub,userRepositoryStub, encrypterStub)
     return {
         sut,
         userRepositoryStub,
-        findByUsernameProviderStub
+        findByUsernameProviderStub,
+        encrypterStub
     }
 }
 
@@ -74,6 +85,7 @@ describe("CreateUserUseCase", ()=>{
     //     // expect(userExpected).toHaveProperty('id')
 
     // })
+   
     it('Should call FindByUsernameProvider with correct username ', async ()=>{
         const { sut, findByUsernameProviderStub } = makeSut ()
         const user = makeUser()
@@ -111,6 +123,17 @@ describe("CreateUserUseCase", ()=>{
     await expect(promise).rejects.toThrow()
 
     })
+    it('Should call CreateUserRepositorie with correct username ', async ()=>{
+        const { sut, userRepositoryStub } = makeSut ()
+        const user = makeUser()
+        const createUserNameSpy = jest.spyOn(userRepositoryStub, 'create')
+
+        user.password = 'password_hash'
+        await sut.execute(user)
+        
+        expect(createUserNameSpy).toHaveBeenCalledWith(user)
+
+    })
     it('Should throws if CreateUserRepositorie throws ', async ()=>{
         const { sut, userRepositoryStub } = makeSut ()
     
@@ -125,6 +148,6 @@ describe("CreateUserUseCase", ()=>{
             
         await expect(promise).rejects.toThrow()
     
-        })
+    })
 
 })
