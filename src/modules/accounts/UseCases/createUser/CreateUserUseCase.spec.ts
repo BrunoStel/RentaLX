@@ -85,7 +85,16 @@ describe("CreateUserUseCase", ()=>{
     //     // expect(userExpected).toHaveProperty('id')
 
     // })
-   
+    it('Should call Encrypter with correct password ', async ()=>{
+        const { sut, encrypterStub } = makeSut ()
+        const user = makeUser()
+        const findByUserNameSpy = jest.spyOn(encrypterStub, 'hash')
+
+        await sut.execute(user)
+        
+        expect(findByUserNameSpy).toHaveBeenCalledWith(user.password)
+
+    })
     it('Should call FindByUsernameProvider with correct username ', async ()=>{
         const { sut, findByUsernameProviderStub } = makeSut ()
         const user = makeUser()
