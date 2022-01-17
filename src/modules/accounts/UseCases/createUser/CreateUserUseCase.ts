@@ -1,16 +1,12 @@
-
-import {ICreateUserDTO, IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
-import { inject, injectable } from "tsyringe"
 import { AppError } from "../../../../shared/errors/AppError";
 import { User } from "../../infra/typeorm/entities/User";
 import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/ICreateUserRepositorie copy";
 import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider";
 import { IEncrypterAdapter } from "../../../../shared/adapter/IEncrypterAdapter";
+import { ICreateUser, ICreateUserDTO } from "./ICreateUser";
 
-//@injectable()
-class CreateUserUseCase {
+class CreateUserUseCase implements ICreateUser{
     constructor(
-        //@inject("UserRepository")
         private readonly findByUsernameProvider: IFindByUsernameProvider,
         private readonly createUserRepositorie: ICreateUserRepositorie,
         private readonly encrypter: IEncrypterAdapter) {}
