@@ -1,17 +1,18 @@
 import { AppError } from "../../../../shared/errors/AppError"
+import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider"
 import { User } from "../../infra/typeorm/entities/User"
 import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/ICreateUserRepositorie copy"
 import { IFindByUsernameUserRepositorie } from "../../infra/typeorm/interfaces/IFindByUsernameUserRepositorie"
 import { ICreateUserDTO } from "../../infra/typeorm/interfaces/IUserRepositorie"
 import { CreateUserUseCase } from "./CreateUserUseCase"
 
-class UserRepositoryStub implements ICreateUserRepositorie, IFindByUsernameUserRepositorie {
+class UserRepositoryStub implements ICreateUserRepositorie {
     async create(data: ICreateUserDTO): Promise<User> {
         const user = {
             name:'any_name',
             password:'any_password',
             username:'any_username',
-            email:'ane_email@email.com',
+            email:'any_email@email.com',
             driver_license:'any_driverLicense',
             id:'any_id',
             isAdmin: false,
@@ -20,29 +21,29 @@ class UserRepositoryStub implements ICreateUserRepositorie, IFindByUsernameUserR
         }
         return user
     }
-   async findByUsername(username: string): Promise<User> {
-        return null
-    }
 }
 
-const makeUserRepositoryStub = (): UserRepositoryStub => {
-
-    const userRepositoryStub = new UserRepositoryStub()
-
-    return userRepositoryStub
+class FindByUsernameProviderStub implements IFindByUsernameProvider {
+    async userAlreadyExists (username: string): Promise<Boolean> {
+        return false
+    }
+    
 }
 
 interface ISut {
     sut: CreateUserUseCase
-    userRepositoryStub: UserRepositoryStub
+    userRepositoryStub: UserRepositoryStub,
+    findByUsernameProviderStub: FindByUsernameProviderStub
 }
 
 const makeSut = (): ISut => {
-    const userRepositoryStub = makeUserRepositoryStub()
-    const sut = new CreateUserUseCase(userRepositoryStub,userRepositoryStub)
+    const userRepositoryStub = new UserRepositoryStub()
+    const findByUsernameProviderStub = new FindByUsernameProviderStub()
+    const sut = new CreateUserUseCase(findByUsernameProviderStub,userRepositoryStub)
     return {
         sut,
-        userRepositoryStub
+        userRepositoryStub,
+        findByUsernameProviderStub
     }
 }
 
@@ -81,36 +82,45 @@ describe("CreateUserUseCase", ()=>{
     //     // expect(userExpected).toHaveProperty('id')
 
     // })
-    it('Should call findByUsername with correct username ', async ()=>{
-        const { sut, userRepositoryStub } = makeSut ()
+    it('Should call findByUsernameProvider with correct username ', async ()=>{
+        const { sut, findByUsernameProviderStub } = makeSut ()
         const user = makeUser()
-        const findByUserNameSpy = jest.spyOn(userRepositoryStub, 'findByUsername')
+        const findByUserNameSpy = jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists')
 
         await sut.execute(user)
         
         expect(findByUserNameSpy).toHaveBeenCalledWith(user.username)
 
     })
-    it('Should return new AppError if findByUsername returns an user ', async ()=>{
-        const { sut, userRepositoryStub } = makeSut ()
-        const user = makeUser()
-        jest.spyOn(userRepositoryStub, 'findByUsername').mockResolvedValue({
-            name:'any_name',
-            password:'any_password',
-            username:'any_username',
-            email:'ane_email@email.com',
-            driver_license:'any_driverLicense',
-            id:'any_id',
-            isAdmin: false,
-            avatar: 'any_avatar',
-            created_at: new Date()
-        })
+    it('Should return new AppError if findByUsernameProvider returns true ', async ()=>{
+    const { sut, findByUsernameProviderStub } = makeSut ()
+
+    const user = makeUser()
+
+    jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists').mockResolvedValue(true)
 
     const promise = sut.execute(user)
         
     await expect(promise).rejects.toEqual(new AppError("Username already in use"))
 
     })
+
+    // it('Should throws if findByUsername throws ', async ()=>{
+    // const { sut, userRepositoryStub } = makeSut ()
+
+    // const user = makeUser()
+
+    // jest.spyOn(userRepositoryStub, 'findByUsername').mockResolvedValueOnce(
+    //     new Promise((resolve, reject) => reject(new Error()))
+    //     )
+
+    // user.username = 'another_user'
+    // const promise = sut.execute(user)
+
+        
+    // await expect(promise).rejects.toEqual(new Error())
+
+    // })
 
     // it('Should not create user with the same username', async ()=>{
         

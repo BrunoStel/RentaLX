@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { v4 as uuidV4 } from "uuid";
 import { AppError } from "../../../../shared/errors/AppError";
 import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider";
-import { IMailProvider } from "../../../../shared/providers/MailProvides/IMailProvider";
+import { IMailProvider } from "../../../../shared/providers/MailProvider/IMailProvider";
 import { IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
 import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/IUserTokensRepositorie";
 import {resolve} from 'path'

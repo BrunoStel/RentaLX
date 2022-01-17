@@ -4,14 +4,14 @@ import { inject, injectable } from "tsyringe"
 import { hash } from "bcryptjs";
 import { AppError } from "../../../../shared/errors/AppError";
 import { User } from "../../infra/typeorm/entities/User";
-import { IFindByUsernameUserRepositorie } from "../../infra/typeorm/interfaces/IFindByUsernameUserRepositorie";
 import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/ICreateUserRepositorie copy";
+import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider";
 
 //@injectable()
 class CreateUserUseCase {
     constructor(
         //@inject("UserRepository")
-        private readonly findByUsernameUserRepositorie: IFindByUsernameUserRepositorie,
+        private readonly findByUsernameProvider: IFindByUsernameProvider,
         private readonly createUserRepositorie: ICreateUserRepositorie) {}
 
     async execute({ name, password, username, email,driver_license }: ICreateUserDTO): Promise<User> {
@@ -19,10 +19,9 @@ class CreateUserUseCase {
         const passwordHash = await hash(password, 8)
         
         
-        const emailAlreadyExists =
-           await this.findByUsernameUserRepositorie.findByUsername(username);
+        const userAlreadyExists = await this.findByUsernameProvider.userAlreadyExists(username)
 
-        if (emailAlreadyExists) {
+        if (userAlreadyExists) {
             throw new AppError("Username already in use");
         }
 
