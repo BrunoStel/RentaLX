@@ -55,7 +55,7 @@ const makeHttpRequest = ():IHttpRequest => {
 describe('CreateUserController', () => {
 
 
-  it('Should call createUserUseCase with correct value', async () => {
+  it('Should call CreateUserUseCase with correct value', async () => {
     const {  sut, createUserUseCaseStub } = makeSut()
 
     const executeSpy = jest.spyOn(createUserUseCaseStub, 'execute')
@@ -66,7 +66,16 @@ describe('CreateUserController', () => {
     
   })
 
-  // it('Should throw if createUserUseCase throws', () => {
+  it('Should throw if createUserUseCase throws', async () => {
+    const {  sut, createUserUseCaseStub } = makeSut()
 
-  // })
+    jest.spyOn(createUserUseCaseStub, 'execute').mockImplementationOnce( () => {
+      throw new Error()
+    })
+
+    const promise = sut.handle(makeHttpRequest())
+
+    await expect(promise).rejects.toThrow()
+
+  })
 })
