@@ -1,38 +1,24 @@
-import { compare } from "bcryptjs";
-import { sign } from "jsonwebtoken";
-import { inject, injectable } from "tsyringe";
 import auth from "../../../../config/auth";
 import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider";
 import { AppError } from "../../../../shared/errors/AppError";
-import { IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
-import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/IUserTokensRepositorie";
+import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider";
+import { IEncrypterAdapterCompare } from "../../../../shared/adapter/hasher/IEncrypterAdapterCompare";
+import { ITokenGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenGenerator";
+import { ITokenRefreshGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenRefreshGenerator";
+import { IRequest, IResponse } from "./IAuthenticateUserUseCase";
+import { ICreateTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/ICreateTokenRepositorie";
 
 
 
-interface IRequest{
-    username:string,
-    password:string
-}
 
-interface IResponse{
-    user:{
-        name:string,
-        username:string,
-        email:string
-    },
-    token:string,
-    refresh_token:string
-}
-
-@injectable()
 class AuthenticateUserUseCase{
 
     constructor(
-        //@inject("UserRepository")
-        private userRepository:IUserRepositorie,
-        @inject("UserTokensRepositorie")
-        private userTokensRepositorie: IUserTokensRepositorie,
-        @inject("DayJsDateProvider")
+        private findByUsernameProvider: IFindByUsernameProvider,
+        private encrypterCompare: IEncrypterAdapterCompare,
+        private createTokenRepositorie: ICreateTokenRepositorie,
+        private tokenGenerator: ITokenGenerator,
+        private tokenRefreshGenerator: ITokenRefreshGenerator,
         private dateProvider: IDateProvider
         
     ){}
@@ -40,9 +26,7 @@ class AuthenticateUserUseCase{
 
 
     async execute({username,password} : IRequest):Promise<IResponse>{
-        const user = await this.userRepository.findByUsername(username)
-
-        const email = user.email
+        const user = await this.findByUsernameProvider.userAlreadyExists(username)
 
         const { expires_in_token, 
             secret_refresh_token, 
@@ -54,26 +38,34 @@ class AuthenticateUserUseCase{
             throw new AppError("Username or password incorrect!")
         }
         
-        const passwordMatch = await compare(password, user.password) //Retorna um true or false
+        const passwordMatch = await this.encrypterCompare.compare({
+            value: password,
+            hash: user.password
+        }) 
 
         if(!passwordMatch){
             throw new AppError("Username or password incorrect!")
         }
 
-        const token =sign({}, secret_token, {
-            subject:user.id,
-            expiresIn:expires_in_token
-        })
+        const email = user.email
 
-        const refresh_token = sign({email},secret_refresh_token,{
-            subject:user.id,
-            expiresIn:expires_in_refresh_token
+        const token = await this.tokenGenerator.generateToken({
+            secretKey: secret_token,
+            value: user.id, 
+            expiresIn: expires_in_token
         })
-
+        
+      
+        const refresh_token = await this.tokenRefreshGenerator.generateRefreshToken({
+            email,
+            secretKey: secret_refresh_token,
+            value: user.id,
+            expiresIn: expires_in_refresh_token
+        })
 
         const expires_date = this.dateProvider.addDays(expires_refresh_token_days)
 
-        await this.userTokensRepositorie.create({
+        await this.createTokenRepositorie.create({
             expires_date,
             refresh_token,
             user_id:user.id

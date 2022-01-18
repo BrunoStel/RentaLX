@@ -1,9 +1,9 @@
 import { AppError } from "../../../../shared/errors/AppError";
 import { User } from "../../infra/typeorm/entities/User";
-import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/ICreateUserRepositorie copy";
 import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider";
-import { IEncrypterAdapter } from "../../../../shared/adapter/IEncrypterAdapter";
+import { IEncrypterAdapter } from "../../../../shared/adapter/hasher/IEncrypterAdapter";
 import { ICreateUserDTO, ICreateUserUseCase } from "./ICreateUser";
+import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/ICreateUserRepositorie";
 
 class CreateUserUseCase implements ICreateUserUseCase{
     constructor(

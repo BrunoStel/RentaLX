@@ -1,6 +1,4 @@
-import "reflect-metadata";
-import { container } from "tsyringe";
-import { IHttpRequest, IHttpResponse } from "../../../protocols/IHttp";
+import { IHttpRequest } from "../../../protocols/IHttp";
 import { User } from "../../infra/typeorm/entities/User";
 import { CreateUserController } from "./CreateUserController"
 import { ICreateUserDTO } from "./ICreateUser";

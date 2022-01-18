@@ -1,8 +1,8 @@
-import { IEncrypterAdapter } from "../../../../shared/adapter/IEncrypterAdapter"
+import { IEncrypterAdapter } from "../../../../shared/adapter/hasher/IEncrypterAdapter"
 import { AppError } from "../../../../shared/errors/AppError"
 import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider"
 import { User } from "../../infra/typeorm/entities/User"
-import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/ICreateUserRepositorie copy"
+import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/ICreateUserRepositorie"
 import { CreateUserUseCase } from "./CreateUserUseCase"
 import { ICreateUserDTO } from "./ICreateUser"
 

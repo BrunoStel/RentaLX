@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { User } from "../../infra/typeorm/entities/User";
+import { IUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/IUserRepositorie";
 import { UserRepository } from "../../infra/typeorm/repositories/UserRepository";
-import { IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
 
 
 

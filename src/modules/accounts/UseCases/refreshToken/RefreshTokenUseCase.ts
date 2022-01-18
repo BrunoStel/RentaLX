@@ -1,9 +1,8 @@
 import { inject, injectable } from "tsyringe";
-import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/IUserTokensRepositorie";
+import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IUserTokensRepositorie";
 import { sign, verify } from "jsonwebtoken";
 import auth from "../../../../config/auth";
 import { AppError } from "../../../../shared/errors/AppError";
-import { IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
 import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider";
 
 interface IPayLoad{

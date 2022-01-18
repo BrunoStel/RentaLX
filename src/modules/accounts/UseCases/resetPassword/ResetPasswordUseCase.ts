@@ -2,8 +2,8 @@ import { hash } from "bcryptjs";
 import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/errors/AppError";
 import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider";
-import { IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
-import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/IUserTokensRepositorie";
+import { IUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/IUserRepositorie";
+import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IUserTokensRepositorie";
 
 interface IRequest{
     token:string,

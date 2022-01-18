@@ -1,11 +1,11 @@
 import { getRepository, Repository } from "typeorm";
 import { User } from "../entities/User";
-import { ICreateUserRepositorie } from "../interfaces/ICreateUserRepositorie copy";
-import { IFindByEmailUserRepositorie } from "../interfaces/IfindByEmailUserRepositorie";
-import { IFindByIDUserRepositorie } from "../interfaces/IFindByIDRepositorie";
-import { IFindByUsernameUserRepositorie } from "../interfaces/IFindByUsernameUserRepositorie";
-import { IListUserRepositorie } from "../interfaces/IListUserRepositorie";
-import { ICreateUserDTO } from "../interfaces/IUserRepositorie";
+import { ICreateUserRepositorie } from "../interfaces/UserRepositorie/ICreateUserRepositorie";
+import { IFindByEmailUserRepositorie } from "../interfaces/UserRepositorie/IfindByEmailUserRepositorie";
+import { IFindByIDUserRepositorie } from "../interfaces/UserRepositorie/IFindByIDRepositorie";
+import { IFindByUsernameUserRepositorie } from "../interfaces/UserRepositorie/IFindByUsernameUserRepositorie";
+import { IListUserRepositorie } from "../interfaces/UserRepositorie/IListUserRepositorie";
+import { ICreateUserDTO } from "../interfaces/UserRepositorie/IUserRepositorie";
 
 
 

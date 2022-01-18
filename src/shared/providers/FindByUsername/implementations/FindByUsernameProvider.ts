@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { User } from "../../../../modules/accounts/infra/typeorm/entities/User";
-import { IFindByUsernameUserRepositorie } from "../../../../modules/accounts/infra/typeorm/interfaces/IFindByUsernameUserRepositorie";
+import { IFindByUsernameUserRepositorie } from "../../../../modules/accounts/infra/typeorm/interfaces/UserRepositorie/IFindByUsernameUserRepositorie";
 import { IFindByUsernameProvider } from "../IFindByUsernameProvider";
 
 @injectable()

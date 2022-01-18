@@ -1,5 +1,4 @@
 import { AppError } from "../../../../shared/errors/AppError"
-import { UserRepositoryInMemory } from "../../repositories/in-memory/UserRepositoryInMemory"
 import { CreateUserUseCase } from "../createUser/CreateUserUseCase"
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase"
 
@@ -8,14 +7,11 @@ import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase"
 describe("Authenticate User", ()=>{
     
     let authenticateUserUseCase: AuthenticateUserUseCase
-    let userRepositoryInMemory: UserRepositoryInMemory
     let createUserUsecase : CreateUserUseCase
 
     
     beforeEach(()=>{
-        userRepositoryInMemory = new UserRepositoryInMemory()
-        authenticateUserUseCase = new AuthenticateUserUseCase(userRepositoryInMemory)
-        createUserUsecase = new CreateUserUseCase(userRepositoryInMemory)
+
     })
 
     it("Should be able to return a valid token",async ()=>{

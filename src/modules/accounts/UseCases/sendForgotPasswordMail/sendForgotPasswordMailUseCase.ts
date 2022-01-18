@@ -3,9 +3,9 @@ import { v4 as uuidV4 } from "uuid";
 import { AppError } from "../../../../shared/errors/AppError";
 import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider";
 import { IMailProvider } from "../../../../shared/providers/MailProvider/IMailProvider";
-import { IUserRepositorie } from "../../infra/typeorm/interfaces/IUserRepositorie";
-import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/IUserTokensRepositorie";
+import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IUserTokensRepositorie";
 import {resolve} from 'path'
+import { IUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/IUserRepositorie";
 
 
 @injectable()

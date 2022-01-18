@@ -1,25 +1,27 @@
-import { Request, Response } from "express";
-import { container } from "tsyringe";
-import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
+import { IController } from "../../../protocols/IController";
+import { IHttpRequest, IHttpResponse } from "../../../protocols/IHttp";
+import { IAuthenticateUserUseCase } from "./IAuthenticateUserUseCase";
 
 
-class AuthenticateUserController{
+class AuthenticateUserController implements IController{
 
-    async handle(request:Request, response:Response):Promise<Response>{
-            const {username, password} = request.body
+    constructor (private readonly authenticateUserUseCase: IAuthenticateUserUseCase){}
 
+    async handle(httpRequest: IHttpRequest): Promise<IHttpResponse>{
+            const {username, password} = httpRequest.body
 
-            const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase)
+            const token = await this.authenticateUserUseCase.execute({username, password})
 
-            const token = await authenticateUserUseCase.execute({username, password})
-
-            return response.status(200).json(token)
+            return {
+                statusCode: 200,
+                body: {
+                    token
+                }
+            }
     }
 
 
 }
-
-
 
 
 export{AuthenticateUserController}

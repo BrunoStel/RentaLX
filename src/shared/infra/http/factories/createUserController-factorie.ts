@@ -2,7 +2,7 @@ import { UserRepository } from "../../../../modules/accounts/infra/typeorm/repos
 import { CreateUserController } from "../../../../modules/accounts/UseCases/createUser/CreateUserController"
 import { CreateUserUseCase } from "../../../../modules/accounts/UseCases/createUser/CreateUserUseCase"
 import { IController } from "../../../../modules/protocols/IController"
-import { BCrypterAdapter } from "../../../adapter/Bcrypt/BCryptAdapter"
+import { BCrypterAdapter } from "../../../adapter/hasher/Bcrypt/BCryptAdapter"
 import { FindByUsernameProvider } from "../../../providers/FindByUsername/implementations/FindByUsernameProvider"
 
 
