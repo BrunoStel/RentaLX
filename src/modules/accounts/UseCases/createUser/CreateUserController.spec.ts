@@ -55,7 +55,7 @@ const makeHttpRequest = ():IHttpRequest => {
 describe('CreateUserController', () => {
 
 
-  it('Should call createUserUseCase with correct values', async () => {
+  it('Should call createUserUseCase with correct value', async () => {
     const {  sut, createUserUseCaseStub } = makeSut()
 
     const executeSpy = jest.spyOn(createUserUseCaseStub, 'execute')
