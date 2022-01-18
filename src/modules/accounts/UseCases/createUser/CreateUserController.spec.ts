@@ -66,7 +66,7 @@ describe('CreateUserController', () => {
     
   })
 
-  it('Should throw if createUserUseCase throws', async () => {
+  it('Should throw if CreateUserUseCase throws', async () => {
     const {  sut, createUserUseCaseStub } = makeSut()
 
     jest.spyOn(createUserUseCaseStub, 'execute').mockImplementationOnce( () => {
@@ -76,6 +76,17 @@ describe('CreateUserController', () => {
     const promise = sut.handle(makeHttpRequest())
 
     await expect(promise).rejects.toThrow()
+
+  })
+  it('Should return statusCode 200 on succes', async () => {
+    const {  sut } = makeSut()
+
+
+
+    const httpResponse = await sut.handle(makeHttpRequest())
+
+     expect(httpResponse.statusCode).toBe(200)
+     expect(httpResponse.body).toEqual( {Message: `User any_name registered with success`})
 
   })
 })
