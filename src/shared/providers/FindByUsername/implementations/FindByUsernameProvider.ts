@@ -1,4 +1,5 @@
 import { inject, injectable } from "tsyringe";
+import { User } from "../../../../modules/accounts/infra/typeorm/entities/User";
 import { IFindByUsernameUserRepositorie } from "../../../../modules/accounts/infra/typeorm/interfaces/IFindByUsernameUserRepositorie";
 import { IFindByUsernameProvider } from "../IFindByUsernameProvider";
 
@@ -10,13 +11,13 @@ export class FindByUsernameProvider implements IFindByUsernameProvider {
     private readonly findByUsernameUserRepositorie: IFindByUsernameUserRepositorie
   ){}
 
-  async userAlreadyExists (username: string): Promise<Boolean> {
+  async userAlreadyExists (username: string): Promise<User> {
     
     const user = await this.findByUsernameUserRepositorie.findByUsername(username)
     if(user){
-      return true
+      return user
     }
-    return false
+    return null
   }
 
 }

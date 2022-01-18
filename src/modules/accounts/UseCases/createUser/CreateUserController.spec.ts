@@ -54,7 +54,6 @@ const makeHttpRequest = ():IHttpRequest => {
 
 describe('CreateUserController', () => {
 
-
   it('Should call CreateUserUseCase with correct value', async () => {
     const {  sut, createUserUseCaseStub } = makeSut()
 
@@ -89,4 +88,4 @@ describe('CreateUserController', () => {
      expect(httpResponse.body).toEqual( {Message: `User any_name registered with success`})
 
   })
-})
+})  

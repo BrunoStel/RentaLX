@@ -3,7 +3,6 @@ import { AppError } from "../../../../shared/errors/AppError"
 import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider"
 import { User } from "../../infra/typeorm/entities/User"
 import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/ICreateUserRepositorie copy"
-import { IFindByUsernameUserRepositorie } from "../../infra/typeorm/interfaces/IFindByUsernameUserRepositorie"
 import { CreateUserUseCase } from "./CreateUserUseCase"
 import { ICreateUserDTO } from "./ICreateUser"
 
@@ -18,15 +17,15 @@ class UserRepositoryStub implements ICreateUserRepositorie {
             id:'any_id',
             isAdmin: false,
             avatar: 'any_avatar',
-            created_at: new Date()
+            created_at:  new Date(2022-1-18)
         }
         return user
     }
 }
 
 class FindByUsernameProviderStub implements IFindByUsernameProvider {
-    async userAlreadyExists (username: string): Promise<Boolean> {
-        return false
+    async userAlreadyExists (username: string): Promise<User> {
+        return null
     }
     
 }
@@ -63,7 +62,7 @@ const makeUser = (): ICreateUserDTO => {
         name:'any_name',
         password:'any_password',
         username:'any_username',
-        email:'ane_email@email.com',
+        email:'any_email@email.com',
         driver_license:'any_driverLicense' 
     }
 
@@ -113,7 +112,17 @@ describe("CreateUserUseCase", ()=>{
 
     const user = makeUser()
 
-    jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists').mockResolvedValueOnce(true)
+    jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists').mockResolvedValueOnce( {
+        name:'any_name',
+        password:'any_password',
+        username:'any_username',
+        email:'any_email@email.com',
+        driver_license:'any_driver_license',
+        id:'any_id',
+        isAdmin: false,
+        avatar: 'any_avatar',
+        created_at: new Date(2022-1-18)
+    })
 
     const promise = sut.execute(user)
         
@@ -173,12 +182,12 @@ describe("CreateUserUseCase", ()=>{
             name:'any_name',
             password:'password_hash',
             username:'any_username',
-            email:'ane_email@email.com',
+            email:'any_email@email.com',
             driver_license:'any_driverLicense',
             id:'any_id',
             isAdmin: false,
             avatar: 'any_avatar',
-            created_at: new Date()
+            created_at: new Date(2022-1-18)
         })
 
     })
