@@ -6,6 +6,7 @@ import { CreateUserController } from "../../../../modules/accounts/UseCases/crea
 import { ListUsersController } from "../../../../modules/accounts/UseCases/listUsers/listUsersController";
 import { UpdateUserAvatarController } from "../../../../modules/accounts/UseCases/updateUserAvatar/UpdateUserAvatarController";
 import uploadConfig from "../../../../config/upload"
+import { adaptRoute } from "../adapter/express-route-adapter";
 
 const userRoutes = Router();
 
@@ -27,7 +28,7 @@ userRoutes.post("/", celebrate({
         driver_license: Joi.string().required()
     }
 }),
-createUserController.handle)
+adaptRoute(createUserController))
 
 userRoutes.get("/",
 listUsersController.handle)

@@ -1,17 +1,23 @@
-import { Request, Response } from "express";
 import { container } from "tsyringe";
+import { IController } from "../../../protocols/IController";
+import { IHttpRequest, IHttpResponse } from "../../../protocols/IHttp";
 import { CreateUserUseCase } from "./CreateUserUseCase";
 
-class CreateUserController {
+class CreateUserController implements IController {
 
-    async handle(request: Request, response: Response): Promise<Response> {
-        const { name, password, username, email, driver_license } = request.body;
+    async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
+        const { name, password, username, email, driver_license } = httpRequest.body;
 
         const  createUserUseCase = container.resolve(CreateUserUseCase)
 
         await createUserUseCase.execute({ name, password, username, email, driver_license});
 
-        return response.status(201).send();
+        return {
+            statusCode: 200,
+            body: {
+                Message: `User ${name} registered with success`
+            }
+        }
     }
 }
 
