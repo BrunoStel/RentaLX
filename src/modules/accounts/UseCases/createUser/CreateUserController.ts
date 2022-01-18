@@ -1,16 +1,15 @@
-import { container } from "tsyringe";
 import { IController } from "../../../protocols/IController";
 import { IHttpRequest, IHttpResponse } from "../../../protocols/IHttp";
-import { CreateUserUseCase } from "./CreateUserUseCase";
+import { ICreateUserUseCase } from "./ICreateUser";
 
 class CreateUserController implements IController {
+
+    constructor(private readonly createUserUseCase: ICreateUserUseCase){}
 
     async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
         const { name, password, username, email, driver_license } = httpRequest.body;
 
-        const  createUserUseCase = container.resolve(CreateUserUseCase)
-
-        await createUserUseCase.execute({ name, password, username, email, driver_license});
+        await this.createUserUseCase.execute({ name, password, username, email, driver_license});
 
         return {
             statusCode: 200,

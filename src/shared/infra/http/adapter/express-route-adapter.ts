@@ -3,7 +3,7 @@ import { IController } from '../../../../modules/protocols/IController'
 import { IHttpRequest } from '../../../../modules/protocols/IHttp'
 
 
-export const adaptRoute = (controller: IController): RequestHandler => {
+export const adaptExpressRoute = (controller: IController): RequestHandler => {
   return async (request: Request, response: Response) => {
     const httpRequest: IHttpRequest = {
       body: request.body
