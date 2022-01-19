@@ -70,15 +70,25 @@ describe('CreateUserController', () => {
     await expect(promise).rejects.toThrow()
 
   })
-  // it('Should return statusCode 200 on succes', async () => {
-  //   const {  sut } = makeSut()
+  it('Should return statusCode 200 and token on succes', async () => {
+    const {  sut } = makeSut()
 
 
 
-  //   const httpResponse = await sut.handle(makeHttpRequest())
+    const httpResponse = await sut.handle(makeHttpRequest())
 
-  //    expect(httpResponse.statusCode).toBe(200)
-  //    expect(httpResponse.body).toEqual( {Message: `User any_name registered with success`})
+     expect(httpResponse.statusCode).toBe(200)
+     expect(httpResponse.body).toEqual({
+      token:{
+        user:{
+            name:'any_name',
+            username: 'any_username',
+            email: 'any_email@email.com'
+        },
+        token: 'any_token',
+        refresh_token: 'any_refresh_token'
+        } 
+    })
 
-  // })
+  })
 })  
