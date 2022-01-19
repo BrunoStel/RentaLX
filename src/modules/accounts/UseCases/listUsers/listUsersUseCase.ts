@@ -1,19 +1,15 @@
-import { inject, injectable } from "tsyringe";
 import { User } from "../../infra/typeorm/entities/User";
-import { IUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/IUserRepositorie";
-import { UserRepository } from "../../infra/typeorm/repositories/UserRepository";
+import { IListUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/IListUserRepositorie";
 
 
 
-@injectable()
 class ListUsersUseCase{
 
 constructor(
-    @inject(UserRepository)
-    private listUserUseCase : IUserRepositorie){}
+    private listUserRepositorie : IListUserRepositorie){}
 
 async execute(): Promise<User[]>{
-    const users = await this.listUserUseCase.list();
+    const users = await this.listUserRepositorie.list();
     return users
 }
 
