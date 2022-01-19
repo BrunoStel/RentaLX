@@ -4,36 +4,35 @@ import { User } from "../../infra/typeorm/entities/User";
 import { ListUsersController } from "./listUsersController";
 import { IListUsersUseCase } from "./protocols/IListUsersUseCase";
 
-
-class ListUsersUseCaseStub implements IListUsersUseCase{
-  async execute(): Promise<User[]> {
-    const user = {
-      name:'any_name',
-      password:'any_password',
-      username:'any_username',
-      email:'any_email',
-      driver_license:'any_driver_license',
-      id:'any_id',
-      isAdmin: false,
-      avatar: 'any_avatar',
-      created_at:  new Date(2022-1-18)
-  }
-  const user2 = {
-      name:'any_name',
-      password:'any_password',
-      username:'any_username',
-      email:'any_email',
-      driver_license:'any_driver_license',
-      id:'any_id',
-      isAdmin: false,
-      avatar: 'any_avatar',
-      created_at:  new Date(2022-1-18)
-  }
+const user = {
+  name:'any_name',
+  password:'any_password',
+  username:'any_username',
+  email:'any_email',
+  driver_license:'any_driver_license',
+  id:'any_id',
+  isAdmin: false,
+  avatar: 'any_avatar',
+  created_at:  new Date(2022-1-18)
+}
+const user2 = {
+  name:'any_name',
+  password:'any_password',
+  username:'any_username',
+  email:'any_email',
+  driver_license:'any_driver_license',
+  id:'any_id',
+  isAdmin: false,
+  avatar: 'any_avatar',
+  created_at:  new Date(2022-1-18)
+}
 
 const users = [user, user2]
 
-return users
-}
+class ListUsersUseCaseStub implements IListUsersUseCase{
+  async execute(): Promise<User[]> {
+    return users
+  }
 }
 
 interface ISut {
@@ -78,15 +77,15 @@ describe('CreateUserController', () => {
     await expect(promise).rejects.toThrow()
 
   })
-  // it('Should return statusCode 200 on succes', async () => {
-  //   const {  sut } = makeSut()
+  it('Should return statusCode 200 and an array of users on succes', async () => {
+    const { sut } = makeSut()
 
 
 
-  //   const httpResponse = await sut.handle(makeHttpRequest())
+    const httpResponse = await sut.handle({body:'any'})
 
-  //    expect(httpResponse.statusCode).toBe(200)
-  //    expect(httpResponse.body).toEqual( {Message: `User any_name registered with success`})
+     expect(httpResponse.statusCode).toBe(200)
+     expect(httpResponse.body).toEqual(users)
 
-  // })
+  })
 })  
