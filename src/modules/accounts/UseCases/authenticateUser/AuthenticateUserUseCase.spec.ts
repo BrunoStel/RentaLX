@@ -167,4 +167,17 @@ describe("AuthenticateUserUseCase", ()=>{
     await expect(promise).rejects.toEqual(new AppError("Username or password incorrect!"))
 
     })
+    it('Should throws if FindByUsernameProvider throws ', async ()=>{
+        const { sut, findByUsernameProviderStub } = makeSut ()
+    
+        jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists').mockImplementationOnce(() => {
+            throw new Error()
+          })
+    
+        const promise = sut.execute({username:'any_username', password:'any_password'})
+    
+            
+        await expect(promise).rejects.toThrow()
+    
+    })
 })
