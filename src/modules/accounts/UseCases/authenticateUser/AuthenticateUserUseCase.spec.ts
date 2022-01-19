@@ -312,7 +312,7 @@ describe("AuthenticateUserUseCase", ()=>{
         })
 
     })
-    it('Should throws if EncrypterCompare throws', async ()=>{
+    it('Should throws if CreateTokenRepositorie throws', async ()=>{
         const { sut, createTokenRepositorieStub } = makeSut ()
     
         jest.spyOn(createTokenRepositorieStub, 'create').mockImplementationOnce(() => {
@@ -325,5 +325,24 @@ describe("AuthenticateUserUseCase", ()=>{
         await expect(promise).rejects.toThrow()
     
     })
+    it('Should return token, user and refresh_token on succes', async ()=>{
+        const { sut } = makeSut ()
+    
+    
+        const tokenReturn = await sut.execute({username:'any_username', password:'any_password'})
+    
+            
+        expect(tokenReturn).toEqual({
+            token: 'any_token',
+            user:{
+                name: 'any_name',
+                username: 'any_username',
+                email: 'any_email@email.com'
+            },
+            refresh_token: 'any_refresh_token'
+        })
+    
+    })
+
     
 })
