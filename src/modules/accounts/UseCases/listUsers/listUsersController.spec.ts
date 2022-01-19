@@ -66,18 +66,18 @@ describe('CreateUserController', () => {
     
   })
 
-  // it('Should throw if CreateUserUseCase throws', async () => {
-  //   const {  sut, createUserUseCaseStub } = makeSut()
+  it('Should throw if ListUsersUseCase throws', async () => {
+    const {  sut, listUsersUseCaseStub } = makeSut()
 
-  //   jest.spyOn(createUserUseCaseStub, 'execute').mockImplementationOnce( () => {
-  //     throw new Error()
-  //   })
+    jest.spyOn(listUsersUseCaseStub, 'execute').mockImplementationOnce( () => {
+      throw new Error()
+    })
 
-  //   const promise = sut.handle(makeHttpRequest())
+    const promise = sut.handle({body:'any'})
 
-  //   await expect(promise).rejects.toThrow()
+    await expect(promise).rejects.toThrow()
 
-  // })
+  })
   // it('Should return statusCode 200 on succes', async () => {
   //   const {  sut } = makeSut()
 
