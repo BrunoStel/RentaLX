@@ -50,7 +50,7 @@ class TokenGeneratorStub implements ITokenGenerator {
 
 class TokenRefreshGeneratorStub implements ITokenRefreshGenerator {
     async generateRefreshToken ({ email, secretKey, value, expiresIn }: IGenerateInput): Promise<string> {
-        return 'any_token'
+        return 'any_refresh_token'
     }
 
 }
@@ -297,6 +297,20 @@ describe("AuthenticateUserUseCase", ()=>{
             
         await expect(promise).rejects.toThrow()
     
+    })
+    it('Should call DateProvider with correct value', async () => {
+        const { sut, createTokenRepositorieStub }= makeSut()
+
+        const spy = jest.spyOn(createTokenRepositorieStub, 'create')
+
+        await sut.execute({username:'any_username', password:'any_password'})
+
+        expect(spy).toHaveBeenCalledWith({
+            expires_date: new Date(2022-1-18),
+            refresh_token: 'any_refresh_token',
+            user_id:'any_id'
+        })
+
     })
     
 })
