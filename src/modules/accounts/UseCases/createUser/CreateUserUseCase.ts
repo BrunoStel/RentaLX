@@ -2,7 +2,7 @@ import { AppError } from "../../../../shared/errors/AppError";
 import { User } from "../../infra/typeorm/entities/User";
 import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUsername/IFindByUsernameProvider";
 import { IEncrypterAdapter } from "../../../../shared/adapter/hasher/IEncrypterAdapter";
-import { ICreateUserDTO, ICreateUserUseCase } from "./ICreateUser";
+import { ICreateUserDTO, ICreateUserUseCase } from "./protocols/ICreateUser";
 import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/ICreateUserRepositorie";
 
 class CreateUserUseCase implements ICreateUserUseCase{

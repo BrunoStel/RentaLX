@@ -153,7 +153,6 @@ const makeSut = (): ISut => {
 
 
 describe("AuthenticateUserUseCase", ()=>{
-
     it('Should call FindByUsernameProvider with correct value', async () => {
         const { sut, findByUsernameProviderStub }= makeSut()
 
@@ -343,6 +342,4 @@ describe("AuthenticateUserUseCase", ()=>{
         })
     
     })
-
-    
 })

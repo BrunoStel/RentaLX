@@ -1,6 +1,6 @@
 import { IController } from "../../../protocols/IController";
 import { IHttpRequest, IHttpResponse } from "../../../protocols/IHttp";
-import { IAuthenticateUserUseCase } from "./IAuthenticateUserUseCase";
+import { IAuthenticateUserUseCase } from "./protocols/IAuthenticateUserUseCase";
 
 
 class AuthenticateUserController implements IController{

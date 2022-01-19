@@ -4,7 +4,7 @@ import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUser
 import { User } from "../../infra/typeorm/entities/User"
 import { ICreateUserRepositorie } from "../../infra/typeorm/interfaces/UserRepositorie/ICreateUserRepositorie"
 import { CreateUserUseCase } from "./CreateUserUseCase"
-import { ICreateUserDTO } from "./ICreateUser"
+import { ICreateUserDTO } from "./protocols/ICreateUser"
 
 class UserRepositoryStub implements ICreateUserRepositorie {
     async create(data: ICreateUserDTO): Promise<User> {

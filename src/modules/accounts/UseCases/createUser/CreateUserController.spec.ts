@@ -1,7 +1,7 @@
 import { IHttpRequest } from "../../../protocols/IHttp";
 import { User } from "../../infra/typeorm/entities/User";
 import { CreateUserController } from "./CreateUserController"
-import { ICreateUserDTO } from "./ICreateUser";
+import { ICreateUserDTO } from "./protocols/ICreateUser";
 
 
 class CreateUserUseCaseStub {

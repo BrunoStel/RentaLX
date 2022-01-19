@@ -5,7 +5,7 @@ import { IFindByUsernameProvider } from "../../../../shared/providers/FindByUser
 import { IEncrypterAdapterCompare } from "../../../../shared/adapter/hasher/IEncrypterAdapterCompare";
 import { ITokenGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenGenerator";
 import { ITokenRefreshGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenRefreshGenerator";
-import { IRequest, IResponse } from "./IAuthenticateUserUseCase";
+import { IRequest, IResponse } from "./protocols/IAuthenticateUserUseCase";
 import { ICreateTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/ICreateTokenRepositorie";
 
 
