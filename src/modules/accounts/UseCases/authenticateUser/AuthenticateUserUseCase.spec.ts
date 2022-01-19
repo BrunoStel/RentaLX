@@ -298,7 +298,7 @@ describe("AuthenticateUserUseCase", ()=>{
         await expect(promise).rejects.toThrow()
     
     })
-    it('Should call DateProvider with correct value', async () => {
+    it('Should call CreateTokenRepositorie with correct value', async () => {
         const { sut, createTokenRepositorieStub }= makeSut()
 
         const spy = jest.spyOn(createTokenRepositorieStub, 'create')
@@ -311,6 +311,19 @@ describe("AuthenticateUserUseCase", ()=>{
             user_id:'any_id'
         })
 
+    })
+    it('Should throws if EncrypterCompare throws', async ()=>{
+        const { sut, createTokenRepositorieStub } = makeSut ()
+    
+        jest.spyOn(createTokenRepositorieStub, 'create').mockImplementationOnce(() => {
+            throw new Error()
+          })
+    
+        const promise = sut.execute({username:'any_username', password:'any_password'})
+    
+            
+        await expect(promise).rejects.toThrow()
+    
     })
     
 })
