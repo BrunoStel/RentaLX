@@ -107,7 +107,7 @@ describe("CreateUserUseCase", ()=>{
         expect(findByUserNameSpy).toHaveBeenCalledWith(user.username)
 
     })
-    it('Should return new AppError if FindByUsernameProvider returns true ', async ()=>{
+    it('Should return new AppError if FindByUsernameProvider returns an user ', async ()=>{
     const { sut, findByUsernameProviderStub } = makeSut ()
 
     const user = makeUser()
