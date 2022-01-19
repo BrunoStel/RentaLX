@@ -275,5 +275,15 @@ describe("AuthenticateUserUseCase", ()=>{
         await expect(promise).rejects.toThrow()
     
     })
+    it('Should call DateProvider with correct value', async () => {
+        const { sut, dateProviderStun }= makeSut()
+
+        const spy = jest.spyOn(dateProviderStun, 'addDays')
+
+        await sut.execute({username:'any_username', password:'any_password'})
+
+        expect(spy).toHaveBeenCalledWith(expires_refresh_token_days)
+
+    })
     
 })
