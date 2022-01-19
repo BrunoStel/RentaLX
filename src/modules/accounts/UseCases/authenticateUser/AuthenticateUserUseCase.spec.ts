@@ -190,5 +190,15 @@ describe("AuthenticateUserUseCase", ()=>{
         expect(spy).toHaveBeenCalledWith({value:'any_password', hash:'hash_password' })
 
     })
+    it('Should throw new AppError if EncrypterCompare returns false', async () => {
+        const { sut, encrypterStub } = makeSut ()
+    
+        jest.spyOn(encrypterStub, 'compare').mockResolvedValueOnce(false)
+    
+        const promise = sut.execute({username:'any_username', password:'any_password'})
+            
+        await expect(promise).rejects.toEqual(new AppError("Username or password incorrect!"))
+    
+    })
     
 })
