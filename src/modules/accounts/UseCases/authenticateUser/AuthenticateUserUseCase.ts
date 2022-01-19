@@ -16,10 +16,10 @@ class AuthenticateUserUseCase{
     constructor(
         private findByUsernameProvider: IFindByUsernameProvider,
         private encrypterCompare: IEncrypterAdapterCompare,
-        private createTokenRepositorie: ICreateTokenRepositorie,
         private tokenGenerator: ITokenGenerator,
         private tokenRefreshGenerator: ITokenRefreshGenerator,
-        private dateProvider: IDateProvider
+        private dateProvider: IDateProvider,
+        private createTokenRepositorie: ICreateTokenRepositorie,
         
     ){}
 
