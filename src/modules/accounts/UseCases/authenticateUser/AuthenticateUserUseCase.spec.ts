@@ -247,5 +247,20 @@ describe("AuthenticateUserUseCase", ()=>{
         await expect(promise).rejects.toThrow()
     
     })
+    it('Should call TokenGenerator with correct value', async () => {
+        const { sut, tokenRefreshGeneratorStub }= makeSut()
+
+        const spy = jest.spyOn(tokenRefreshGeneratorStub, 'generateRefreshToken')
+
+        await sut.execute({username:'any_username', password:'any_password'})
+
+        expect(spy).toHaveBeenCalledWith({
+            email: 'any_email@email.com',
+            secretKey: secret_refresh_token,
+            value: 'any_id',
+            expiresIn: expires_in_refresh_token
+        })
+
+    })
     
 })
