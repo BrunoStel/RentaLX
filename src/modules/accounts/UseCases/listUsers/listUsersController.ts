@@ -1,15 +1,22 @@
-import { container } from "tsyringe";
 import { Request, Response } from "express";
-import { ListUsersUseCase } from "./listUsersUseCase";
+import { IController } from "../../../protocols/IController";
+import { IHttpRequest, IHttpResponse } from "../../../protocols/IHttp";
+import { IListUsersUseCase } from "./protocols/IListUsersUseCase";
 
 
 
-class ListUsersController {
+class ListUsersController implements IController{
 
-    async handle(request:Request, response:Response): Promise<Response>{
-        const listUsersUseCase = container.resolve(ListUsersUseCase)
-        const users = await listUsersUseCase.execute()
-        return response.status(200).json(users)
+    constructor(private readonly listUsersUseCase: IListUsersUseCase){}
+
+    async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
+
+        const users = await this.listUsersUseCase.execute()
+
+        return {
+            statusCode: 200,
+            body: users
+        }
     }
 
 }
