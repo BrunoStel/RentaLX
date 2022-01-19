@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { RefreshTokenController } from "../../../../modules/accounts/UseCases/refreshToken/RefreshTokenController";
-import { adaptExpressRoute } from "../adapter/express-route-adapter";
+import { adaptExpressRoute } from "../express adapter/express-route-adapter";
 import { makeAuthenticateUserController } from "../factories/authenticateUserController-factorie";
 
 

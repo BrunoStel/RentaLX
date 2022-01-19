@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 import { AppError } from "../../../errors/AppError";
-import { UserRepository } from "../../../../modules/accounts/infra/typeorm/repositories/UserRepository";
-import { UserTokensRepositorie } from "../../../../modules/accounts/infra/typeorm/repositories/UserTokensRepositorie";
 import auth from "../../../../config/auth";
 
 interface IPaylod{

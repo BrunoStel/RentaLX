@@ -2,12 +2,11 @@ import { celebrate, Joi, Segments } from "celebrate";
 import { Router } from "express";
 import multer from "multer";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
-import { CreateUserController } from "../../../../modules/accounts/UseCases/createUser/CreateUserController";
-import { ListUsersController } from "../../../../modules/accounts/UseCases/listUsers/listUsersController";
 import { UpdateUserAvatarController } from "../../../../modules/accounts/UseCases/updateUserAvatar/UpdateUserAvatarController";
 import uploadConfig from "../../../../config/upload"
-import { adaptExpressRoute } from "../adapter/express-route-adapter";
+import { adaptExpressRoute } from "../express adapter/express-route-adapter";
 import { makeCreateUserController } from "../factories/createUserController-factorie";
+import { makelistUsersController } from "../factories/listUsersController-factorie";
 
 const userRoutes = Router();
 
@@ -15,8 +14,8 @@ const uploadAvatar = multer(uploadConfig)
 
 const createUserController = makeCreateUserController()
 
+const listUsersController = makelistUsersController()
 
-const listUsersController = new ListUsersController();
 const updateUserAvatarController = new UpdateUserAvatarController()
 
 
@@ -32,7 +31,7 @@ userRoutes.post("/", celebrate({
 adaptExpressRoute(createUserController))
 
 userRoutes.get("/",
-listUsersController.handle)
+adaptExpressRoute(listUsersController))
 
 userRoutes.patch("/avatar", 
 ensureAuthenticated, 

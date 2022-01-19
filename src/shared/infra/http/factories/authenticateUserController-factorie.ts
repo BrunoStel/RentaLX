@@ -19,21 +19,19 @@ export const makeAuthenticateUserController = (): IController => {
   
   const encrypterCompare = new BCrypterAdapter(12)
 
-  const tokenRepositorie = new UserTokensRepositorie()
-
   const tokenProvider = new JwtAdapter()
 
   const dateProvider = new DayJsDateProvider()
 
-
+  const createTokenRepositorie = new UserTokensRepositorie()
 
   const authenticateUserUseCase = new AuthenticateUserUseCase(
   findByUsernameProvider,
   encrypterCompare,
-  tokenRepositorie,
   tokenProvider,
   tokenProvider,
-  dateProvider
+  dateProvider,
+  createTokenRepositorie
   )
 
   return new AuthenticateUserController(authenticateUserUseCase)
