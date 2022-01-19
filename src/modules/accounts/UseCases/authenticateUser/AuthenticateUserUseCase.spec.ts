@@ -1,3 +1,4 @@
+import auth from "../../../../config/auth"
 import { IEncrypterAdapter } from "../../../../shared/adapter/hasher/IEncrypterAdapter"
 import { ICompareEncrypter, IEncrypterAdapterCompare } from "../../../../shared/adapter/hasher/IEncrypterAdapterCompare"
 import { ITokenGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenGenerator"
@@ -110,6 +111,12 @@ interface ISut {
     sut: AuthenticateUserUseCase
 }
 
+const { expires_in_token, 
+    secret_refresh_token, 
+    secret_token, 
+    expires_in_refresh_token,
+    expires_refresh_token_days} = auth
+
 const makeSut = (): ISut => {
     const findByUsernameProviderStub = new FindByUsernameProviderStub()
 
@@ -212,6 +219,20 @@ describe("AuthenticateUserUseCase", ()=>{
             
         await expect(promise).rejects.toThrow()
     
+    })
+    it('Should call TokenGenerator with correct value', async () => {
+        const { sut, tokenGeneratorStub }= makeSut()
+
+        const spy = jest.spyOn(tokenGeneratorStub, 'generateToken')
+
+        await sut.execute({username:'any_username', password:'any_password'})
+
+        expect(spy).toHaveBeenCalledWith({
+            secretKey: secret_token,
+            value: 'any_id', 
+            expiresIn: expires_in_token
+        })
+
     })
     
 })
