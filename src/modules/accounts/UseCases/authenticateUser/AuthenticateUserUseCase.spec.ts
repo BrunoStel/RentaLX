@@ -18,7 +18,7 @@ class FindByUsernameProviderStub implements IFindByUsernameProvider {
     async userAlreadyExists (username: string): Promise<User> {
         const user = {
             name:'any_name',
-            password:'any_password',
+            password:'hash_password',
             username:'any_username',
             email:'any_email@email.com',
             driver_license:'any_driver_license',
@@ -84,7 +84,7 @@ class CreateTokenRepositorieStub implements ICreateTokenRepositorie {
             user_id: 'any_id',
             user: {
                 name:'any_name',
-                password:'any_password',
+                password:'hash_password',
                 username:'any_username',
                 email:'any_email@email.com',
                 driver_license:'any_driver_license',
@@ -167,7 +167,7 @@ describe("AuthenticateUserUseCase", ()=>{
     await expect(promise).rejects.toEqual(new AppError("Username or password incorrect!"))
 
     })
-    it('Should throws if FindByUsernameProvider throws ', async ()=>{
+    it('Should throws if FindByUsernameProvider throws', async ()=>{
         const { sut, findByUsernameProviderStub } = makeSut ()
     
         jest.spyOn(findByUsernameProviderStub, 'userAlreadyExists').mockImplementationOnce(() => {
@@ -180,4 +180,15 @@ describe("AuthenticateUserUseCase", ()=>{
         await expect(promise).rejects.toThrow()
     
     })
+    it('Should call EncrypterCompare with correct value', async () => {
+        const { sut, encrypterStub }= makeSut()
+
+        const spy = jest.spyOn(encrypterStub, 'compare')
+
+        await sut.execute({username:'any_username', password:'any_password'})
+
+        expect(spy).toHaveBeenCalledWith({value:'any_password', hash:'hash_password' })
+
+    })
+    
 })
