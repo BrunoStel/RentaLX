@@ -47,7 +47,7 @@ const makeHttpRequest = ():IHttpRequest => {
 
 describe('CreateUserController', () => {
 
-  it('Should call AuthenticateUserUseCase with correct value', async () => {
+  it('Should call AuthenticateUserUseCase with correct values', async () => {
     const {  sut, authenticateUserUseCaseStub } = makeSut()
 
     const executeSpy = jest.spyOn(authenticateUserUseCaseStub, 'execute')
@@ -58,18 +58,18 @@ describe('CreateUserController', () => {
     
   })
 
-  // it('Should throw if CreateUserUseCase throws', async () => {
-  //   const {  sut, createUserUseCaseStub } = makeSut()
+  it('Should throw if AuthenticateUserUseCase throws', async () => {
+    const {  sut, authenticateUserUseCaseStub } = makeSut()
 
-  //   jest.spyOn(createUserUseCaseStub, 'execute').mockImplementationOnce( () => {
-  //     throw new Error()
-  //   })
+    jest.spyOn(authenticateUserUseCaseStub, 'execute').mockImplementationOnce( () => {
+      throw new Error()
+    })
 
-  //   const promise = sut.handle(makeHttpRequest())
+    const promise = sut.handle(makeHttpRequest())
 
-  //   await expect(promise).rejects.toThrow()
+    await expect(promise).rejects.toThrow()
 
-  // })
+  })
   // it('Should return statusCode 200 on succes', async () => {
   //   const {  sut } = makeSut()
 
