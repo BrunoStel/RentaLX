@@ -262,5 +262,18 @@ describe("AuthenticateUserUseCase", ()=>{
         })
 
     })
+    it('Should throws if EncrypterCompare throws', async ()=>{
+        const { sut, tokenRefreshGeneratorStub } = makeSut ()
+    
+        jest.spyOn(tokenRefreshGeneratorStub, 'generateRefreshToken').mockImplementationOnce(() => {
+            throw new Error()
+          })
+    
+        const promise = sut.execute({username:'any_username', password:'any_password'})
+    
+            
+        await expect(promise).rejects.toThrow()
+    
+    })
     
 })
