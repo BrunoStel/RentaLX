@@ -53,7 +53,6 @@ const makeSut = ():ISut => {
 
 describe("ListUsersUseCase", ()=>{
 
-
 it("Should call ListUserRepositorie",async ()=>{
     const { sut, listUserRepositorieStub } = makeSut()
 
@@ -63,6 +62,17 @@ it("Should call ListUserRepositorie",async ()=>{
 
     expect(listSpy).toHaveBeenCalledTimes(1)
 })
-    
 
+it("Should throws if ListUserRepositorie throws",async ()=>{
+    const { sut, listUserRepositorieStub } = makeSut()
+
+    jest.spyOn(listUserRepositorieStub, 'list').mockImplementationOnce(() => {
+        throw new Error()
+    })
+
+    const promise = sut.execute()
+
+    await expect(promise).rejects.toThrow()
+})
+    
 })
