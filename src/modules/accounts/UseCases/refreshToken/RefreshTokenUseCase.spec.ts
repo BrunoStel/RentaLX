@@ -185,12 +185,24 @@ describe('RefreshTokenUseCase', () => {
     const {  sut, tokenVerify } = makeSut()
 
     jest.spyOn(tokenVerify, 'verify').mockImplementationOnce( () => {
-      return null //throw new Error()
+      return null 
     })
 
     const promise = sut.execute(token)
 
     await expect(promise).rejects.toEqual(new AppError("Refresh token does not exists!"))
+
+  })
+  it('Should throws if TokenVerify throws', async () => {
+    const {  sut, tokenVerify } = makeSut()
+
+    jest.spyOn(tokenVerify, 'verify').mockImplementationOnce( () => {
+      throw new Error()
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toThrow()
 
   })
 
