@@ -43,10 +43,10 @@ class RefreshTokenUseCase{
     if(!outPut) {
         throw new AppError("Refresh token does not exists!")
     }
-    
-    const {email, sub: user_id} = outPut
 
-    const userToken = await this.findByIdTokenRepositorie.findByUserIdAndRefreshToken(user_id, token)
+    const {email, user_id} = outPut
+
+    const userToken = await this.findByIdTokenRepositorie.findByUserIdAndRefreshToken({user_id, refresh_token: token})
 
     if(!userToken){
         throw new AppError("Refresh token does not exists!")

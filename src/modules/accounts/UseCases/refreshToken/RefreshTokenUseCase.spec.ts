@@ -8,7 +8,7 @@ import { IDateProvider } from "../../../../shared/providers/DateProvider/IDatePr
 import { UserTokens } from "../../infra/typeorm/entities/UserTokens"
 import { ICreateTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/ICreateTokenRepositorie"
 import { IDeleteByIdTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IDeleteByIdTokenRepositorie"
-import { IFindByIdTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IFindByIdTokenRepositorie"
+import { IFindByIDTokenDTO, IFindByIdTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IFindByIdTokenRepositorie"
 import { ICreateUserTokensDTO } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IUserTokensRepositorie"
 import { RefreshTokenUseCase } from "./RefreshTokenUseCase"
 
@@ -16,13 +16,13 @@ class TokenVerifyStub implements ITokenVerify {
   async verify({ token, secret_refresh_token }: IVerifyInput): Promise<IPayLoad> {
     return {
       email: 'any_email',
-      sub: 'user_id'
+      user_id: 'user_id'
     }
   }
 }
 
 class FindByUserIdAndRefreshTokenStub implements IFindByIdTokenRepositorie{
-  async findByUserIdAndRefreshToken(user_id: string, refresh_token:string): Promise<UserTokens> {
+  async findByUserIdAndRefreshToken({user_id, refresh_token}:IFindByIDTokenDTO): Promise<UserTokens> {
     
     return {
       id: 'any_id',
@@ -203,6 +203,18 @@ describe('RefreshTokenUseCase', () => {
     const promise = sut.execute(token)
 
     await expect(promise).rejects.toThrow()
+
+  })
+
+  it('Should call FindByUserIdAndRefreshToken with correct value', async () => {
+    const {sut, findByUserIdAndRefreshTokenStub } = makeSut()
+
+    const tokenSpy = jest.spyOn(findByUserIdAndRefreshTokenStub, 'findByUserIdAndRefreshToken')
+
+    await sut.execute(token)
+
+    expect(tokenSpy).toBeCalledWith({refresh_token:token, user_id:'user_id'})
+
 
   })
 

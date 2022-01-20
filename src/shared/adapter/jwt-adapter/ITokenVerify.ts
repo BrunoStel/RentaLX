@@ -5,7 +5,7 @@ export interface IVerifyInput {
 }
 
 export interface IPayLoad{
-  sub:string,
+  user_id:string,
   email:string
 }
 
