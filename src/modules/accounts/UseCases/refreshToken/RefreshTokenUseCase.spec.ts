@@ -291,6 +291,16 @@ describe('RefreshTokenUseCase', () => {
 
   })
 
+  it('Should call DateProvider with correct value', async () => {
+    const {sut, dateProviderStub } = makeSut()
+
+    const addDaysSpy = jest.spyOn(dateProviderStub, 'addDays')
+
+    await sut.execute(token)
+
+    expect(addDaysSpy).toBeCalledWith(expires_refresh_token_days)
+  })
+
 
 
 })
