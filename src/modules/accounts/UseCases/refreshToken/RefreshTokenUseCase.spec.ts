@@ -3,6 +3,7 @@ import { ITokenGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenGe
 import { ITokenRefreshGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenRefreshGenerator"
 import { IPayLoad, ITokenVerify, IVerifyInput } from "../../../../shared/adapter/jwt-adapter/ITokenVerify"
 import { IGenerateInput } from "../../../../shared/adapter/jwt-adapter/jwt/jwt-adapter"
+import { AppError } from "../../../../shared/errors/AppError"
 import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider"
 import { UserTokens } from "../../infra/typeorm/entities/UserTokens"
 import { ICreateTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/ICreateTokenRepositorie"
@@ -180,4 +181,17 @@ describe('RefreshTokenUseCase', () => {
 
 
   })
+  it('Should call AppError if TokenVerify returns null', async () => {
+    const {  sut, tokenVerify } = makeSut()
+
+    jest.spyOn(tokenVerify, 'verify').mockImplementationOnce( () => {
+      return null //throw new Error()
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toEqual(new AppError("Refresh token does not exists!"))
+
+  })
+
 })

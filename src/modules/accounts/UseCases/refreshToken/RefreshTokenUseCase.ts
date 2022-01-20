@@ -38,8 +38,14 @@ class RefreshTokenUseCase{
             expires_refresh_token_days
           } = auth
 
-    const {email, sub: user_id} = await this.tokenVerify.verify({token, secret_refresh_token})
-        
+    const outPut = await this.tokenVerify.verify({token, secret_refresh_token})
+
+    if(!outPut) {
+        throw new AppError("Refresh token does not exists!")
+    }
+    
+    const {email, sub: user_id} = outPut
+
     const userToken = await this.findByIdTokenRepositorie.findByUserIdAndRefreshToken(user_id, token)
 
     if(!userToken){
