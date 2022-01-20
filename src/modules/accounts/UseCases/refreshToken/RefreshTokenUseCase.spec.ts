@@ -16,7 +16,7 @@ class TokenVerifyStub implements ITokenVerify {
   async verify({ token, secret_refresh_token }: IVerifyInput): Promise<IPayLoad> {
     return {
       email: 'any_email',
-      user_id: 'user_id'
+      sub: 'user_id'
     }
   }
 }

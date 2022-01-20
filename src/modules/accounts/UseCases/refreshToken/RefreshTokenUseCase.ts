@@ -45,7 +45,7 @@ class RefreshTokenUseCase implements IRefreshTokenUseCase{
         throw new AppError("Refresh token is not valid!")
     }
 
-    const {email, user_id} = outPut
+    const {email, sub: user_id} = outPut
 
     const userToken = await this.findByIdTokenRepositorie.findByUserIdAndRefreshToken({user_id, refresh_token: token})
 
