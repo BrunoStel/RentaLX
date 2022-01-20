@@ -7,15 +7,16 @@ import { IDeleteByIdTokenRepositorie } from "../../infra/typeorm/interfaces/User
 import { ICreateTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/ICreateTokenRepositorie";
 import { ITokenRefreshGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenRefreshGenerator";
 import { ITokenGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenGenerator";
+import { IRefreshTokenUseCase } from "./protocols/IRefreshTokenUseCase";
 
 
 
-interface ITokenResponse{
+export interface ITokenResponse{
     refresh_token:string,
     token:string
 }
 
-class RefreshTokenUseCase{
+class RefreshTokenUseCase implements IRefreshTokenUseCase{
 
     constructor(
         private tokenVerify: ITokenVerify,

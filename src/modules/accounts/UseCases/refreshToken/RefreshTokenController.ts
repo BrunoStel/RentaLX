@@ -1,23 +1,28 @@
-import { Request, response, Response } from 'express'
-import { container } from 'tsyringe'
+import { IController } from '../../../protocols/IController'
+import { IHttpRequest, IHttpResponse } from '../../../protocols/IHttp'
+import { IRefreshTokenUseCase } from './protocols/IRefreshTokenUseCase'
 import { RefreshTokenUseCase } from './RefreshTokenUseCase'
 
 
-class  RefreshTokenController {
+class  RefreshTokenController implements IController {
 
+    constructor(private readonly refreshTokenUseCase:IRefreshTokenUseCase){}
 
-    async handle(request:Request, response:Response):Promise<Response>{
+    async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
 
         const token =
-        request.body.token || 
-        request.headers['x-acess-token'] || 
-        request.query.token
+        httpRequest.body.token 
 
-        const refreshTokenUseCase = container.resolve(RefreshTokenUseCase)
+        // httpRequest.headers['x-acess-token'] || 
+        // httpRequest.query.token
 
-        const refresh_token = await refreshTokenUseCase.execute(token)
+        const refresh_token = await this.refreshTokenUseCase.execute(token)
 
-        return response.status(200).json(refresh_token)
+        return {
+            statusCode: 200,
+            body: refresh_token
+            
+        }
     }
 
 
