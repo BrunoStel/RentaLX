@@ -1,0 +1,183 @@
+import auth from "../../../../config/auth"
+import { ITokenGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenGenerator"
+import { ITokenRefreshGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenRefreshGenerator"
+import { IPayLoad, ITokenVerify, IVerifyInput } from "../../../../shared/adapter/jwt-adapter/ITokenVerify"
+import { IGenerateInput } from "../../../../shared/adapter/jwt-adapter/jwt/jwt-adapter"
+import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider"
+import { UserTokens } from "../../infra/typeorm/entities/UserTokens"
+import { ICreateTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/ICreateTokenRepositorie"
+import { IDeleteByIdTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IDeleteByIdTokenRepositorie"
+import { IFindByIdTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IFindByIdTokenRepositorie"
+import { ICreateUserTokensDTO } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IUserTokensRepositorie"
+import { RefreshTokenUseCase } from "./RefreshTokenUseCase"
+
+class TokenVerifyStub implements ITokenVerify {
+  async verify({ token, secret_refresh_token }: IVerifyInput): Promise<IPayLoad> {
+    return {
+      email: 'any_email',
+      sub: 'user_id'
+    }
+  }
+}
+
+class FindByUserIdAndRefreshTokenStub implements IFindByIdTokenRepositorie{
+  async findByUserIdAndRefreshToken(user_id: string, refresh_token:string): Promise<UserTokens> {
+    
+    return {
+      id: 'any_id',
+      refresh_token: 'any_refresh_token',
+      user_id: 'user_id',
+      user: {
+        name:'any_name',
+        password:'hash_password',
+        username:'any_username',
+        email:'any_email@email.com',
+        driver_license:'any_driver_license',
+        id:'any_id',
+        isAdmin: false,
+        avatar: 'any_avatar',
+        created_at: new Date(2022-1-18)
+      },
+      expires_date: new Date(2022-1-18),
+      created_at: new Date(2022-1-18)
+    }
+
+  }
+}
+
+class DeleteByIdTokenRepositorieStub implements IDeleteByIdTokenRepositorie{
+  async deleteById(id: string): Promise<void> {
+  }
+}
+
+class TokenRefreshGeneratorStub implements ITokenRefreshGenerator {
+  async generateRefreshToken ({ email, secretKey, value, expiresIn }: IGenerateInput): Promise<string> {
+      return 'any_refresh_token'
+  }
+
+}
+
+class DateProviderStub implements IDateProvider {
+  compareInHours(star_date: Date, expected_return_date: Date): Number {
+      throw new Error("Method not implemented.")
+  }
+  convertToUTC(date: Date): string {
+      throw new Error("Method not implemented.")
+  }
+  dateNow(): Date {
+      throw new Error("Method not implemented.")
+  }
+  addDays(days: number): Date {
+      return new Date(2022-1-18)
+  }
+  addHours(hours: number): Date {
+      throw new Error("Method not implemented.")
+  }
+  compareIfBefore(start_date: Date, end_date: Date): Boolean {
+      throw new Error("Method not implemented.")
+  }
+
+}
+
+class CreateTokenRepositorieStub implements ICreateTokenRepositorie {
+  async create({ expires_date, refresh_token, user_id }: ICreateUserTokensDTO): Promise<UserTokens> {
+      return {
+          id: 'any_token_id',
+          refresh_token: 'any_refresh_token',
+          user_id: 'any_id',
+          user: {
+              name:'any_name',
+              password:'hash_password',
+              username:'any_username',
+              email:'any_email@email.com',
+              driver_license:'any_driver_license',
+              id:'any_id',
+              isAdmin: false,
+              avatar: 'any_avatar',
+              created_at: new Date(2022-1-18)
+          },
+          expires_date: new Date(2022-1-18),
+          created_at: new Date(2022-1-18)
+      }
+  }
+  
+}
+
+class TokenGeneratorStub implements ITokenGenerator {
+  async generateToken ({ secretKey, value, expiresIn }: IGenerateInput): Promise<string> {
+      return 'any_token'
+  }
+
+}
+
+interface ISut {
+  tokenVerify: TokenVerifyStub
+  findByUserIdAndRefreshTokenStub: FindByUserIdAndRefreshTokenStub
+  deleteByIdTokenRepositorieStub: DeleteByIdTokenRepositorieStub
+  tokenRefreshGeneratorStub: TokenRefreshGeneratorStub
+  dateProviderStub: DateProviderStub
+  createTokenRepositorieStub: CreateTokenRepositorieStub
+  tokenGeneratorStub: TokenGeneratorStub
+  sut: RefreshTokenUseCase
+}
+
+const makeSut = (): ISut => {
+  const tokenVerify = new TokenVerifyStub()
+
+  const findByUserIdAndRefreshTokenStub = new FindByUserIdAndRefreshTokenStub()
+    
+  const deleteByIdTokenRepositorieStub = new DeleteByIdTokenRepositorieStub()
+
+  const tokenRefreshGeneratorStub = new TokenRefreshGeneratorStub()
+
+  const dateProviderStub = new DateProviderStub()
+
+  const createTokenRepositorieStub = new CreateTokenRepositorieStub()
+
+  const tokenGeneratorStub = new TokenGeneratorStub()
+
+  const sut = new RefreshTokenUseCase(
+    tokenVerify,
+    findByUserIdAndRefreshTokenStub,
+    deleteByIdTokenRepositorieStub,
+    tokenRefreshGeneratorStub,
+    dateProviderStub,
+    createTokenRepositorieStub,
+    tokenGeneratorStub,
+  )
+
+  return {
+    tokenVerify,
+    findByUserIdAndRefreshTokenStub,
+    deleteByIdTokenRepositorieStub,
+    tokenRefreshGeneratorStub,
+    dateProviderStub,
+    createTokenRepositorieStub,
+    tokenGeneratorStub,
+    sut
+  }
+}
+
+const token = 'token_execute'
+
+const { secret_refresh_token,
+  secret_token, 
+  expires_in_token,
+  expires_in_refresh_token ,
+  expires_refresh_token_days
+} = auth
+
+describe('RefreshTokenUseCase', () => {
+
+  it('Should call TokenVerify with correct value', async () => {
+    const {sut, tokenVerify } = makeSut()
+
+    const tokenSpy = jest.spyOn(tokenVerify, 'verify')
+
+    await sut.execute(token)
+
+    expect(tokenSpy).toBeCalledWith({token,secret_refresh_token})
+
+
+  })
+})

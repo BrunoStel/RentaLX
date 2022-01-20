@@ -1,61 +1,73 @@
-import { inject, injectable } from "tsyringe";
-import { IUserTokensRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IUserTokensRepositorie";
-import { sign, verify } from "jsonwebtoken";
 import auth from "../../../../config/auth";
 import { AppError } from "../../../../shared/errors/AppError";
 import { IDateProvider } from "../../../../shared/providers/DateProvider/IDateProvider";
+import { ITokenVerify } from "../../../../shared/adapter/jwt-adapter/ITokenVerify";
+import { IFindByIdTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IFindByIdTokenRepositorie";
+import { IDeleteByIdTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IDeleteByIdTokenRepositorie";
+import { ICreateTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/ICreateTokenRepositorie";
+import { ITokenRefreshGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenRefreshGenerator";
+import { ITokenGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenGenerator";
 
-interface IPayLoad{
-    sub:string,
-    email:string
-}
+
 
 interface ITokenResponse{
     refresh_token:string,
     token:string
 }
 
-@injectable()
 class RefreshTokenUseCase{
 
     constructor(
-        @inject("UserTokensRepositorie")
-        private userTokensRepositorie : IUserTokensRepositorie,
-        @inject("DayJsDateProvider")
-        private dateProvider: IDateProvider
+        private tokenVerify: ITokenVerify,
+        private findByIdTokenRepositorie : IFindByIdTokenRepositorie,
+        private deleteByIdTokenRepositorie : IDeleteByIdTokenRepositorie,
+        private tokenRefreshGenerator: ITokenRefreshGenerator,
+        private dateProvider: IDateProvider,
+        private createTokenRepositorie: ICreateTokenRepositorie,
+        private tokenGenerator: ITokenGenerator
+        
     ){}
 
 
     async execute(token:string):Promise<ITokenResponse>{
-        const {email, sub} = verify(token, auth.secret_refresh_token) as IPayLoad
+
+    const { secret_refresh_token,
+            secret_token, 
+            expires_in_token,
+            expires_in_refresh_token ,
+            expires_refresh_token_days
+          } = auth
+
+    const {email, sub: user_id} = await this.tokenVerify.verify({token, secret_refresh_token})
         
-       const user_id = sub
+    const userToken = await this.findByIdTokenRepositorie.findByUserIdAndRefreshToken(user_id, token)
 
-      const userToken = await this.userTokensRepositorie.findByUserIdAndRefreshToken(user_id, token)
+    if(!userToken){
+        throw new AppError("Refresh token does not exists!")
+    }
 
-      if(!userToken){
-          throw new AppError("Refresh token does not exists!")
-      }
+    await this.deleteByIdTokenRepositorie.deleteById(userToken.id)
 
-      await this.userTokensRepositorie.deleteById(userToken.id)
-
-     const refresh_token = sign({email},auth.secret_refresh_token,{
-        subject:user_id,
-        expiresIn:auth.expires_in_refresh_token
+    const refresh_token = await this.tokenRefreshGenerator.generateRefreshToken({
+        email,
+        secretKey: auth.secret_refresh_token,
+        value: user_id,
+        expiresIn: expires_in_refresh_token
     })
 
-    const expires_date = this.dateProvider.addDays(auth.expires_refresh_token_days)
+    const expires_date = this.dateProvider.addDays(expires_refresh_token_days)
 
-    await this.userTokensRepositorie.create({
+    await this.createTokenRepositorie.create({
         expires_date,
         refresh_token,
         user_id:user_id
     })
 
 
-    const newToken =sign({}, auth.secret_token, {
-        subject:user_id,
-        expiresIn:auth.expires_in_token
+    const newToken = await this.tokenGenerator.generateToken({
+        secretKey: secret_token,
+        value: user_id,
+        expiresIn: expires_in_token
     })
 
     return {

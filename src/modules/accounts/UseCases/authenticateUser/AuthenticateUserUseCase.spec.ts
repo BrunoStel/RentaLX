@@ -1,5 +1,4 @@
 import auth from "../../../../config/auth"
-import { IEncrypterAdapter } from "../../../../shared/adapter/hasher/IEncrypterAdapter"
 import { ICompareEncrypter, IEncrypterAdapterCompare } from "../../../../shared/adapter/hasher/IEncrypterAdapterCompare"
 import { ITokenGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenGenerator"
 import { ITokenRefreshGenerator } from "../../../../shared/adapter/jwt-adapter/ITokenRefreshGenerator"
@@ -11,7 +10,6 @@ import { User } from "../../infra/typeorm/entities/User"
 import { UserTokens } from "../../infra/typeorm/entities/UserTokens"
 import { ICreateTokenRepositorie } from "../../infra/typeorm/interfaces/UserTokensRepositorie/ICreateTokenRepositorie"
 import { ICreateUserTokensDTO } from "../../infra/typeorm/interfaces/UserTokensRepositorie/IUserTokensRepositorie"
-import { CreateUserUseCase } from "../createUser/CreateUserUseCase"
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase"
 
 

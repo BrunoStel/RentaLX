@@ -1,7 +1,8 @@
-import jwt from 'jsonwebtoken'
+import jwt, { verify } from 'jsonwebtoken'
 import { sign } from "jsonwebtoken";
 import { ITokenGenerator } from '../ITokenGenerator'
 import { ITokenRefreshGenerator } from '../ITokenRefreshGenerator'
+import { IPayLoad, ITokenVerify, IVerifyInput } from '../ITokenVerify';
 
 export interface IGenerateInput {
   secretKey: string
@@ -10,7 +11,7 @@ export interface IGenerateInput {
   email?:string
 }
 
-export class JwtAdapter implements ITokenGenerator, ITokenRefreshGenerator {
+export class JwtAdapter implements ITokenGenerator, ITokenRefreshGenerator, ITokenVerify {
   async generateToken ({secretKey, value, expiresIn}: IGenerateInput): Promise<string> {
     const acessToken = jwt.sign({ id: value }, secretKey, {
       expiresIn:expiresIn
@@ -26,4 +27,12 @@ export class JwtAdapter implements ITokenGenerator, ITokenRefreshGenerator {
     return acessToken
   }
 
+  async verify({ token, secret_refresh_token }: IVerifyInput): Promise<IPayLoad> {
+    const {email, sub} = await verify(token, secret_refresh_token) as IPayLoad
+
+    return {
+      email,
+      sub
+    }
+  }
 }
