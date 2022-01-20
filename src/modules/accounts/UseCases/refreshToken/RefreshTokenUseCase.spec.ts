@@ -332,7 +332,7 @@ describe('RefreshTokenUseCase', () => {
       user_id: 'user_id'
   })
   })
-  it('Should throws if DateProvider throws', async () => {
+  it('Should throws if CreateTokenRepositorie throws', async () => {
     const {  sut, createTokenRepositorieStub } = makeSut()
 
     jest.spyOn(createTokenRepositorieStub, 'create').mockImplementationOnce( () => {
@@ -342,6 +342,22 @@ describe('RefreshTokenUseCase', () => {
     const promise = sut.execute(token)
 
     await expect(promise).rejects.toThrow()
+
+  })
+
+  //TokenGenerator
+  it('Should call TokenGenerator with correct values', async () => {
+    const {sut, tokenGeneratorStub } = makeSut()
+
+    const generateTokenSpy = jest.spyOn(tokenGeneratorStub, 'generateToken')
+
+    await sut.execute(token)
+
+    expect(generateTokenSpy).toBeCalledWith({
+      secretKey: secret_token,
+      value: 'user_id',
+      expiresIn: expires_in_token
+    })
 
   })
 
