@@ -319,7 +319,7 @@ describe('RefreshTokenUseCase', () => {
   })
 
   //CreateTokenRepositorie
-  it('Should call CreateTokenRepositorie with correct value', async () => {
+  it('Should call CreateTokenRepositorie with correct values', async () => {
     const {sut, createTokenRepositorieStub } = makeSut()
 
     const createSpy = jest.spyOn(createTokenRepositorieStub, 'create')
@@ -331,6 +331,18 @@ describe('RefreshTokenUseCase', () => {
       refresh_token: 'any_refresh_token',
       user_id: 'user_id'
   })
+  })
+  it('Should throws if DateProvider throws', async () => {
+    const {  sut, createTokenRepositorieStub } = makeSut()
+
+    jest.spyOn(createTokenRepositorieStub, 'create').mockImplementationOnce( () => {
+      throw new Error()
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toThrow()
+
   })
 
 })
