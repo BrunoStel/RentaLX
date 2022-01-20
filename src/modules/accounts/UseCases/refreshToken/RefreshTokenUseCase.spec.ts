@@ -278,6 +278,18 @@ describe('RefreshTokenUseCase', () => {
       expiresIn: expires_in_refresh_token
   })
   })
+  it('Should throws if DeleteByIdTokenRepositorie throws', async () => {
+    const {  sut, tokenRefreshGeneratorStub } = makeSut()
+
+    jest.spyOn(tokenRefreshGeneratorStub, 'generateRefreshToken').mockImplementationOnce( () => {
+      throw new Error()
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toThrow()
+
+  })
 
 
 
