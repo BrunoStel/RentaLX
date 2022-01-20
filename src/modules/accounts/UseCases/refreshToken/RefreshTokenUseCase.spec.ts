@@ -191,7 +191,7 @@ describe('RefreshTokenUseCase', () => {
 
     const promise = sut.execute(token)
 
-    await expect(promise).rejects.toEqual(new AppError("Refresh token does not exists!"))
+    await expect(promise).rejects.toEqual(new AppError("Refresh token is not valid!"))
 
   })
   it('Should throws if TokenVerify throws', async () => {
@@ -374,7 +374,7 @@ describe('RefreshTokenUseCase', () => {
   })
 
   //On Sucess
-  it('Should returns an token and refresh_token on sucess', async () => {
+  it('Should returns a token and a refresh_token on sucess', async () => {
     const {sut } = makeSut()
 
     const returnValue = await sut.execute(token)

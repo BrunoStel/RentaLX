@@ -41,7 +41,7 @@ class RefreshTokenUseCase{
     const outPut = await this.tokenVerify.verify({token, secret_refresh_token})
 
     if(!outPut) {
-        throw new AppError("Refresh token does not exists!")
+        throw new AppError("Refresh token is not valid!")
     }
 
     const {email, user_id} = outPut
