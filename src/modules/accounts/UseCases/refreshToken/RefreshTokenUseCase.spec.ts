@@ -206,7 +206,7 @@ describe('RefreshTokenUseCase', () => {
 
   })
 
-  it('Should call FindByUserIdAndRefreshToken with correct value', async () => {
+  it('Should call FindByUserIdAndRefreshToken with correct values', async () => {
     const {sut, findByUserIdAndRefreshTokenStub } = makeSut()
 
     const tokenSpy = jest.spyOn(findByUserIdAndRefreshTokenStub, 'findByUserIdAndRefreshToken')
@@ -215,6 +215,18 @@ describe('RefreshTokenUseCase', () => {
 
     expect(tokenSpy).toBeCalledWith({refresh_token:token, user_id:'user_id'})
 
+
+  })
+  it('Should call AppError if TokenVerify returns null', async () => {
+    const {  sut, findByUserIdAndRefreshTokenStub } = makeSut()
+
+    jest.spyOn(findByUserIdAndRefreshTokenStub, 'findByUserIdAndRefreshToken').mockImplementationOnce( () => {
+      return null 
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toEqual(new AppError("Refresh token does not exists!"))
 
   })
 

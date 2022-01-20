@@ -2,7 +2,7 @@ import { getRepository, Repository } from "typeorm";
 import { UserTokens } from "../entities/UserTokens";
 import { ICreateTokenRepositorie } from "../interfaces/UserTokensRepositorie/ICreateTokenRepositorie";
 import { IDeleteByIdTokenRepositorie } from "../interfaces/UserTokensRepositorie/IDeleteByIdTokenRepositorie";
-import { IFindByIdTokenRepositorie } from "../interfaces/UserTokensRepositorie/IFindByIdTokenRepositorie";
+import { IFindByIDTokenDTO, IFindByIdTokenRepositorie } from "../interfaces/UserTokensRepositorie/IFindByIdTokenRepositorie";
 import { IFindByRefreshTokenRepositorie } from "../interfaces/UserTokensRepositorie/IFindByRefreshTokenRepositorie";
 import { ICreateUserTokensDTO } from "../interfaces/UserTokensRepositorie/IUserTokensRepositorie";
 
@@ -26,7 +26,7 @@ class UserTokensRepositorie implements ICreateTokenRepositorie, IFindByIdTokenRe
         return userToken
     }
 
-    async findByUserIdAndRefreshToken(user_id: string, refresh_token:string): Promise<UserTokens> {
+    async findByUserIdAndRefreshToken({user_id, refresh_token}:IFindByIDTokenDTO): Promise<UserTokens> {
         this.repository = getRepository(UserTokens)
         
         const userTokens = await this.repository.findOne({
