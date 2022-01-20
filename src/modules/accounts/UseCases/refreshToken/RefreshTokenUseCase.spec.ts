@@ -360,5 +360,30 @@ describe('RefreshTokenUseCase', () => {
     })
 
   })
+  it('Should throws if CreateTokenRepositorie throws', async () => {
+    const {  sut, tokenGeneratorStub } = makeSut()
+
+    jest.spyOn(tokenGeneratorStub, 'generateToken').mockImplementationOnce( () => {
+      throw new Error()
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toThrow()
+
+  })
+
+  //On Sucess
+  it('Should returns an token and refresh_token on sucess', async () => {
+    const {sut } = makeSut()
+
+    const returnValue = await sut.execute(token)
+
+    expect(returnValue).toEqual({
+      token: 'any_token',
+      refresh_token: 'any_refresh_token'
+    })
+
+  })
 
 })
