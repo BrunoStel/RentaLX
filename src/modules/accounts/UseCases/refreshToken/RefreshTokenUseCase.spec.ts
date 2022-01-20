@@ -251,5 +251,17 @@ describe('RefreshTokenUseCase', () => {
 
     expect(tokenSpy).toBeCalledWith('any_id')
   })
+  it('Should throws if TokenVerify throws', async () => {
+    const {  sut, deleteByIdTokenRepositorieStub } = makeSut()
+
+    jest.spyOn(deleteByIdTokenRepositorieStub, 'deleteById').mockImplementationOnce( () => {
+      throw new Error()
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toThrow()
+
+  })
 
 })
