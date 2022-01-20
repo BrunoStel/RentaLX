@@ -170,6 +170,7 @@ const { secret_refresh_token,
 
 describe('RefreshTokenUseCase', () => {
 
+  //TokenVerify
   it('Should call TokenVerify with correct value', async () => {
     const {sut, tokenVerify } = makeSut()
 
@@ -206,6 +207,7 @@ describe('RefreshTokenUseCase', () => {
 
   })
 
+  //FindByUserIdAndRefreshToken
   it('Should call FindByUserIdAndRefreshToken with correct values', async () => {
     const {sut, findByUserIdAndRefreshTokenStub } = makeSut()
 
@@ -217,7 +219,7 @@ describe('RefreshTokenUseCase', () => {
 
 
   })
-  it('Should call AppError if TokenVerify returns null', async () => {
+  it('Should call AppError if FindByUserIdAndRefreshToken returns null', async () => {
     const {  sut, findByUserIdAndRefreshTokenStub } = makeSut()
 
     jest.spyOn(findByUserIdAndRefreshTokenStub, 'findByUserIdAndRefreshToken').mockImplementationOnce( () => {
@@ -229,7 +231,7 @@ describe('RefreshTokenUseCase', () => {
     await expect(promise).rejects.toEqual(new AppError("Refresh token does not exists!"))
 
   })
-  it('Should throws if TokenVerify throws', async () => {
+  it('Should throws if FindByUserIdAndRefreshToken throws', async () => {
     const {  sut, findByUserIdAndRefreshTokenStub } = makeSut()
 
     jest.spyOn(findByUserIdAndRefreshTokenStub, 'findByUserIdAndRefreshToken').mockImplementationOnce( () => {
@@ -242,6 +244,7 @@ describe('RefreshTokenUseCase', () => {
 
   })
 
+  //DeleteByIdTokenRepositorie
   it('Should call DeleteByIdTokenRepositorie with correct value', async () => {
     const {sut, deleteByIdTokenRepositorieStub } = makeSut()
 
@@ -264,6 +267,7 @@ describe('RefreshTokenUseCase', () => {
 
   })
 
+  //TokenRefreshGenerator
   it('Should call TokenRefreshGenerator with correct value', async () => {
     const {sut, tokenRefreshGeneratorStub } = makeSut()
 
@@ -291,6 +295,7 @@ describe('RefreshTokenUseCase', () => {
 
   })
 
+  //DateProvider
   it('Should call DateProvider with correct value', async () => {
     const {sut, dateProviderStub } = makeSut()
 
@@ -300,7 +305,7 @@ describe('RefreshTokenUseCase', () => {
 
     expect(addDaysSpy).toBeCalledWith(expires_refresh_token_days)
   })
-  it('Should throws if DeleteByIdTokenRepositorie throws', async () => {
+  it('Should throws if DateProvider throws', async () => {
     const {  sut, dateProviderStub } = makeSut()
 
     jest.spyOn(dateProviderStub, 'addDays').mockImplementationOnce( () => {
@@ -313,6 +318,19 @@ describe('RefreshTokenUseCase', () => {
 
   })
 
+  //CreateTokenRepositorie
+  it('Should call CreateTokenRepositorie with correct value', async () => {
+    const {sut, createTokenRepositorieStub } = makeSut()
 
+    const createSpy = jest.spyOn(createTokenRepositorieStub, 'create')
+
+    await sut.execute(token)
+
+    expect(createSpy).toBeCalledWith({
+      expires_date:  new Date(2022-1-18),
+      refresh_token: 'any_refresh_token',
+      user_id: 'user_id'
+  })
+  })
 
 })
