@@ -209,11 +209,11 @@ describe('RefreshTokenUseCase', () => {
   it('Should call FindByUserIdAndRefreshToken with correct values', async () => {
     const {sut, findByUserIdAndRefreshTokenStub } = makeSut()
 
-    const tokenSpy = jest.spyOn(findByUserIdAndRefreshTokenStub, 'findByUserIdAndRefreshToken')
+    const findByUserIdAndRefreshTokenSpy = jest.spyOn(findByUserIdAndRefreshTokenStub, 'findByUserIdAndRefreshToken')
 
     await sut.execute(token)
 
-    expect(tokenSpy).toBeCalledWith({refresh_token:token, user_id:'user_id'})
+    expect(findByUserIdAndRefreshTokenSpy).toBeCalledWith({refresh_token:token, user_id:'user_id'})
 
 
   })
@@ -245,13 +245,13 @@ describe('RefreshTokenUseCase', () => {
   it('Should call DeleteByIdTokenRepositorie with correct value', async () => {
     const {sut, deleteByIdTokenRepositorieStub } = makeSut()
 
-    const tokenSpy = jest.spyOn(deleteByIdTokenRepositorieStub, 'deleteById')
+    const deleteByIdSpy = jest.spyOn(deleteByIdTokenRepositorieStub, 'deleteById')
 
     await sut.execute(token)
 
-    expect(tokenSpy).toBeCalledWith('any_id')
+    expect(deleteByIdSpy).toBeCalledWith('any_id')
   })
-  it('Should throws if TokenVerify throws', async () => {
+  it('Should throws if DeleteByIdTokenRepositorie throws', async () => {
     const {  sut, deleteByIdTokenRepositorieStub } = makeSut()
 
     jest.spyOn(deleteByIdTokenRepositorieStub, 'deleteById').mockImplementationOnce( () => {
@@ -263,5 +263,22 @@ describe('RefreshTokenUseCase', () => {
     await expect(promise).rejects.toThrow()
 
   })
+
+  it('Should call TokenRefreshGenerator with correct value', async () => {
+    const {sut, tokenRefreshGeneratorStub } = makeSut()
+
+    const generateRefreshTokenIdSpy = jest.spyOn(tokenRefreshGeneratorStub, 'generateRefreshToken')
+
+    await sut.execute(token)
+
+    expect(generateRefreshTokenIdSpy).toBeCalledWith({
+      email: 'any_email',
+      secretKey: secret_refresh_token,
+      value: 'user_id',
+      expiresIn: expires_in_refresh_token
+  })
+  })
+
+
 
 })
