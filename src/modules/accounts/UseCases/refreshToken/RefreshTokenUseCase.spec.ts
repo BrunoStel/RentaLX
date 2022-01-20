@@ -300,6 +300,18 @@ describe('RefreshTokenUseCase', () => {
 
     expect(addDaysSpy).toBeCalledWith(expires_refresh_token_days)
   })
+  it('Should throws if DeleteByIdTokenRepositorie throws', async () => {
+    const {  sut, dateProviderStub } = makeSut()
+
+    jest.spyOn(dateProviderStub, 'addDays').mockImplementationOnce( () => {
+      throw new Error()
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toThrow()
+
+  })
 
 
 
