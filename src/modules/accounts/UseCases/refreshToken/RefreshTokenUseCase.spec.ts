@@ -34,7 +34,7 @@ class FindByUserIdAndRefreshTokenStub implements IFindByIdTokenRepositorie{
         username:'any_username',
         email:'any_email@email.com',
         driver_license:'any_driver_license',
-        id:'any_id',
+        id:'user_id',
         isAdmin: false,
         avatar: 'any_avatar',
         created_at: new Date(2022-1-18)
@@ -228,6 +228,28 @@ describe('RefreshTokenUseCase', () => {
 
     await expect(promise).rejects.toEqual(new AppError("Refresh token does not exists!"))
 
+  })
+  it('Should throws if TokenVerify throws', async () => {
+    const {  sut, findByUserIdAndRefreshTokenStub } = makeSut()
+
+    jest.spyOn(findByUserIdAndRefreshTokenStub, 'findByUserIdAndRefreshToken').mockImplementationOnce( () => {
+      throw new Error()
+    })
+
+    const promise = sut.execute(token)
+
+    await expect(promise).rejects.toThrow()
+
+  })
+
+  it('Should call DeleteByIdTokenRepositorie with correct value', async () => {
+    const {sut, deleteByIdTokenRepositorieStub } = makeSut()
+
+    const tokenSpy = jest.spyOn(deleteByIdTokenRepositorieStub, 'deleteById')
+
+    await sut.execute(token)
+
+    expect(tokenSpy).toBeCalledWith('any_id')
   })
 
 })
