@@ -21,10 +21,10 @@ interface IOptions {
 //   )
     return createConnection(
         Object.assign(defaultOptions,{
-        host:"rentalx.cn6ixw4wtuy5.us-east-1.rds.amazonaws.com",
+        host:process.env.HOST_PG,
         port: 5432,
-        username:"postgres",
-        password: "postgres",
+        username:process.env.USERNAME_PG,
+        password: process.env.PASSWORD_PG,
         database: "rentalx"
         })
     )
