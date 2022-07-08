@@ -23,4 +23,6 @@ router.use("/rentals", rentalsRoutes)
 
 router.use("/password", passwordRoutes)
 
+router.use("/healthy", (req, res)=> { return res.sendStatus(200)})
+
 export { router };

@@ -9,16 +9,6 @@ interface IOptions {
 
  export default async (): Promise<Connection> =>{
   const defaultOptions = await  getConnectionOptions()
-
-//   return createConnection(
-//     Object.assign(defaultOptions,{
-//     host:process.env.NODE_ENV === 'test' ? 'localhost' : host,
-//     database:
-//       process.env.NODE_ENV === "test"
-//         ? "rentx"
-//         : defaultOptions.database,
-//     })
-//   )
     return createConnection(
         Object.assign(defaultOptions,{
         host:process.env.HOST_PG,
