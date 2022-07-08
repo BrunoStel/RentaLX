@@ -7,26 +7,33 @@ interface IOptions {
 
 
 
- export default async (host = "database_ignite"): Promise<Connection> =>{
+ export default async (): Promise<Connection> =>{
   const defaultOptions = await  getConnectionOptions()
 
-  return createConnection(
-    Object.assign(defaultOptions,{
-    host:process.env.NODE_ENV === 'test' ? 'localhost' : host,
-    database:
-      process.env.NODE_ENV === "test"
-        ? "rentx"
-        : defaultOptions.database,
-    })
-  )
+//   return createConnection(
+//     Object.assign(defaultOptions,{
+//     host:process.env.NODE_ENV === 'test' ? 'localhost' : host,
+//     database:
+//       process.env.NODE_ENV === "test"
+//         ? "rentx"
+//         : defaultOptions.database,
+//     })
+//   )
+    return createConnection(
+        Object.assign(defaultOptions,{
+        host:"rentalx.cn6ixw4wtuy5.us-east-1.rds.amazonaws.com",
+        port: 5432,
+        username:"postgres",
+        password: "postgres",
+        database: "rentalx"
+        })
+    )
 }
-if(process.env.NODE_ENV != 'test'){
-  getConnectionOptions().then(options => {
-    const newOptions = options as IOptions;
-    newOptions.host = 'database_ignite'; //Essa opção deverá ser EXATAMENTE o nome dado ao service do banco de dados
-    createConnection({
-      ...options,
-    });
-  });
-}
+
+getConnectionOptions().then(options => {
+createConnection({
+    ...options,
+});
+});
+
 
